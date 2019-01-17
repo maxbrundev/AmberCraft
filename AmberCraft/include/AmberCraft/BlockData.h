@@ -1,6 +1,6 @@
 #pragma once
 
-#include "AmberCraft/BlockType.h"
+#include "BlockType.h"
 
 namespace AmberCraft
 {

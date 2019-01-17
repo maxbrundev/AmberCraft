@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "AmberCraft/BlockGeometry.h"
 
 std::vector<AmberCraft::BlockVertex> AmberCraft::BlockGeometry::m_vertices;

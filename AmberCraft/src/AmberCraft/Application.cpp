@@ -1,6 +1,8 @@
-#include "AmberCraft/Application.h"
+#include "pch.h"
+
 #include "AmberEngine/ImGui/imgui.h"
 
+#include "AmberCraft/Application.h"
 #include "AmberCraft/World.h"
 
 RenderEngine::Systems::Application::Application()

@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "AmberCraft/Chunk.h"
 
 AmberCraft::Chunk::Chunk()

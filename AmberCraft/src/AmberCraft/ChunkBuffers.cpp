@@ -1,6 +1,7 @@
+#include "pch.h"
+
 #include "AmberCraft/ChunkBuffers.h"
 #include "AmberCraft/BlockGeometry.h"
-#include <GL/glew.h>
 
 AmberCraft::ChunkBuffers::ChunkBuffers()
 {

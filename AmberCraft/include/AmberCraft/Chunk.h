@@ -1,9 +1,7 @@
 #pragma once
 
-#include <vector>
-
-#include "AmberCraft/BlockData.h"
-#include "AmberCraft/ChunkBuffers.h"
+#include "BlockData.h"
+#include "ChunkBuffers.h"
 
 #define CHUNK_SIZE 16
 #define CHUNK_ELEMENTS_COUNT CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE

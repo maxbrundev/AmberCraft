@@ -1,7 +1,5 @@
 #pragma once
 
-typedef unsigned int GLuint;
-
 namespace AmberCraft
 {
 	class ChunkBuffers

@@ -1,10 +1,7 @@
 #pragma once
 
-#include <array>
-
-#include "AmberCraft/Chunk.h"
+#include "Chunk.h"
 #include "AmberEngine/Managers/RenderingManager.h"
-#include "AmberEngine/Maths/MathGLM.h"
 
 #define WORLD_SIZE 20
 #define WORLD_ELEMENTS_COUNT WORLD_SIZE * WORLD_SIZE * WORLD_SIZE

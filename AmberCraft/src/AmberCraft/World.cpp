@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "AmberCraft/World.h"
 #include "AmberCraft/FastNoise.h"
 

@@ -20,7 +20,8 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{E45CDAD5-5ABF-4D77-B3FB-E4AADA52B871}</ProjectGuid>
+    <ProjectGuid>{3D057FE4-00D6-452F-8C2C-98C9666070F1}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
     <RootNamespace>AmberCraft</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -29,27 +30,27 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -70,43 +71,52 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(ProjectDir)include\;$(SolutionDir)..\Dependencies\AmberEngine\include\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)..\Dependencies\AmberEngine\lib\$(Platform)\$(Configuration)\;$(LibraryPath)</LibraryPath>
-    <SourcePath>$(ProjectDir)src\;$(SourcePath)</SourcePath>
+    <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)..\Bin\$(ProjectName)\$(Platform)-$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\Bin-Int\$(ProjectName)\$(Platform)-$(Configuration)\</IntDir>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(ProjectDir)include\;$(SolutionDir)..\Dependencies\AmberEngine\include\;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir);$(ProjectDir)include\;$(SolutionDir)..\Dependencies\AmberEngine\include\;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)..\Dependencies\AmberEngine\lib\$(Platform)\$(Configuration)\;$(LibraryPath)</LibraryPath>
-    <SourcePath>$(ProjectDir)src\;$(SourcePath)</SourcePath>
-    <OutDir>$(SolutionDir)..\Bin\$(ProjectName)\$(Platform)-$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)..\Bin-Int\$(ProjectName)\$(Platform)-$(Configuration)\</IntDir>
+    <SourcePath>$(ProjectDir);$(ProjectDir)src\;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(ProjectDir)include\;$(SolutionDir)..\Dependencies\AmberEngine\include\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)..\Dependencies\AmberEngine\lib\$(Platform)\$(Configuration)\;$(LibraryPath)</LibraryPath>
-    <SourcePath>$(ProjectDir)src\;$(SourcePath)</SourcePath>
+    <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)..\Bin\$(ProjectName)\$(Platform)-$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\Bin-Int\$(ProjectName)\$(Platform)-$(Configuration)\</IntDir>
+    <IncludePath>$(ProjectDir);$(ProjectDir)include\;$(SolutionDir)..\Dependencies\AmberEngine\include\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)..\Dependencies\AmberEngine\lib\$(Platform)\$(Configuration)\;$(LibraryPath)</LibraryPath>
+    <SourcePath>$(ProjectDir);$(ProjectDir)src\;$(SourcePath)</SourcePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)..\Bin\$(ProjectName)\$(Platform)-$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)..\Bin-Int\$(ProjectName)\$(Platform)-$(Configuration)\</IntDir>
+    <IncludePath>$(ProjectDir);$(ProjectDir)include\;$(SolutionDir)..\Dependencies\AmberEngine\include\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)..\Dependencies\AmberEngine\lib\$(Platform)\$(Configuration)\;$(LibraryPath)</LibraryPath>
+    <SourcePath>$(ProjectDir);$(ProjectDir)src\;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(ProjectDir)include\;$(SolutionDir)..\Dependencies\AmberEngine\include\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)..\Dependencies\AmberEngine\lib\$(Platform)\$(Configuration)\;$(LibraryPath)</LibraryPath>
-    <SourcePath>$(ProjectDir)src\;$(SourcePath)</SourcePath>
+    <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)..\Bin\$(ProjectName)\$(Platform)-$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\Bin-Int\$(ProjectName)\$(Platform)-$(Configuration)\</IntDir>
+    <IncludePath>$(ProjectDir);$(ProjectDir)include\;$(SolutionDir)..\Dependencies\AmberEngine\include\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)..\Dependencies\AmberEngine\lib\$(Platform)\$(Configuration)\;$(LibraryPath)</LibraryPath>
+    <SourcePath>$(ProjectDir);$(ProjectDir)src\;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>AmberEngine.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>AmberEngine.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>del "$(OutDir)*.dll"
@@ -115,14 +125,19 @@ xcopy "$(SolutionDir)..\Dependencies\AmberEngine\bin\$(Platform)\$(Configuration
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>AmberEngine.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>AmberEngine.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>del "$(OutDir)*.dll"
@@ -131,18 +146,23 @@ xcopy "$(SolutionDir)..\Dependencies\AmberEngine\bin\$(Platform)\$(Configuration
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
+      <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>AmberEngine.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>AmberEngine.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>del "$(OutDir)*.dll"
@@ -151,33 +171,29 @@ xcopy "$(SolutionDir)..\Dependencies\AmberEngine\bin\$(Platform)\$(Configuration
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
+      <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>AmberEngine.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>AmberEngine.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>del "$(OutDir)*.dll"
 xcopy "$(SolutionDir)..\Dependencies\AmberEngine\bin\$(Platform)\$(Configuration)\*.dll" "$(OutDir)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="src\AmberCraft\Application.cpp" />
-    <ClCompile Include="src\AmberCraft\BlockGeometry.cpp" />
-    <ClCompile Include="src\AmberCraft\Chunk.cpp" />
-    <ClCompile Include="src\AmberCraft\ChunkBuffers.cpp" />
-    <ClCompile Include="src\AmberCraft\FastNoise.cpp" />
-    <ClCompile Include="src\AmberCraft\Main.cpp" />
-    <ClCompile Include="src\AmberCraft\World.cpp" />
-  </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\AmberCraft\Application.h" />
     <ClInclude Include="include\AmberCraft\BlockData.h" />
@@ -187,6 +203,26 @@ xcopy "$(SolutionDir)..\Dependencies\AmberEngine\bin\$(Platform)\$(Configuration
     <ClInclude Include="include\AmberCraft\ChunkBuffers.h" />
     <ClInclude Include="include\AmberCraft\FastNoise.h" />
     <ClInclude Include="include\AmberCraft\World.h" />
+    <ClInclude Include="pch.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AmberCraft.cpp" />
+    <ClCompile Include="pch.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\AmberCraft\Application.cpp" />
+    <ClCompile Include="src\AmberCraft\BlockGeometry.cpp" />
+    <ClCompile Include="src\AmberCraft\Chunk.cpp" />
+    <ClCompile Include="src\AmberCraft\ChunkBuffers.cpp" />
+    <ClCompile Include="src\AmberCraft\FastNoise.cpp" />
+    <ClCompile Include="src\AmberCraft\World.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\shaders\chunk.fs" />
+    <None Include="res\shaders\chunk.vs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,9 +1,5 @@
 #pragma once
 
-#include <vector>
-
-#include"AmberEngine/Maths/MathGLM.h"
-
 namespace AmberCraft
 {
 	struct BlockVertex

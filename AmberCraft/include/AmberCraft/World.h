@@ -28,7 +28,7 @@ namespace AmberCraft
 		void Draw(AmberEngine::Managers::RenderingManager& p_renderingManager);
 
 		BlockData GetBlock(uint64_t p_x, uint64_t p_y, uint64_t p_z);
-		void SetBlock(uint64_t p_x, uint64_t p_y, uint64_t p_z, BlockData p_blockData);
+		bool SetBlock(uint64_t p_x, uint64_t p_y, uint64_t p_z, BlockData p_blockData, bool p_updateChunk = false);
 
 		static std::array<uint8_t, 3> From1Dto3D(uint16_t p_index);
 		static uint16_t From3Dto1D(uint8_t p_x, uint8_t p_y, uint8_t p_z);

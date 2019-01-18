@@ -87,9 +87,9 @@ void AmberCraft::World::Draw(AmberEngine::Managers::RenderingManager& p_renderin
 	glm::mat4 projectionMatrix = p_renderingManager.CalculateProjectionMatrix();
 	glm::mat4 viewMatrix = p_renderingManager.CalculateViewMatrix();
 
-	auto& chunkShader = p_renderingManager.GetResourcesManager()->GetShader("chunk");
+	auto& chunkShader = p_renderingManager.GetResourcesManager().GetShader("chunk");
 
-	p_renderingManager.GetResourcesManager()->GetTexture("dirt").Bind();
+	p_renderingManager.GetResourcesManager().GetTexture("dirt").Bind();
 
 	chunkShader.Bind();
 	chunkShader.SetUniformMat4("projection", projectionMatrix);
@@ -102,7 +102,7 @@ void AmberCraft::World::Draw(AmberEngine::Managers::RenderingManager& p_renderin
 
 		glm::vec3 chunkPosition(x * CHUNK_SIZE, y * CHUNK_SIZE, z * CHUNK_SIZE);
 
-		if(glm::distance(chunkPosition, p_renderingManager.GetCamera()->GetPosition()) <= 200)
+		if(glm::distance(chunkPosition, p_renderingManager.GetCamera().GetPosition()) <= 200)
 		{
 			chunkShader.SetUniformMat4("model", glm::translate(glm::mat4(1.0f), chunkPosition));
 			m_chunks[i].Draw();
@@ -112,12 +112,32 @@ void AmberCraft::World::Draw(AmberEngine::Managers::RenderingManager& p_renderin
 
 AmberCraft::BlockData AmberCraft::World::GetBlock(uint64_t p_x, uint64_t p_y, uint64_t p_z)
 {
-	return m_chunks[From3Dto1D(p_x / CHUNK_SIZE, p_y / CHUNK_SIZE, p_z / CHUNK_SIZE)].blocks[Chunk::From3Dto1D(p_x % CHUNK_SIZE, p_y % CHUNK_SIZE, p_z % CHUNK_SIZE)];
+	uint16_t chunkElement = From3Dto1D(p_x / CHUNK_SIZE, p_y / CHUNK_SIZE, p_z / CHUNK_SIZE);
+	uint16_t blockElement = Chunk::From3Dto1D(p_x % CHUNK_SIZE, p_y % CHUNK_SIZE, p_z % CHUNK_SIZE);
+
+	if (chunkElement >= WORLD_ELEMENTS_COUNT || blockElement >= CHUNK_ELEMENTS_COUNT)
+		return BlockData{BlockType::AIR};
+
+	return m_chunks[chunkElement].blocks[blockElement];
 }
 
-void AmberCraft::World::SetBlock(uint64_t p_x, uint64_t p_y, uint64_t p_z, BlockData p_blockData)
+bool AmberCraft::World::SetBlock(uint64_t p_x, uint64_t p_y, uint64_t p_z, BlockData p_blockData, bool p_updateChunk)
 {
-	m_chunks[From3Dto1D(p_x / CHUNK_SIZE, p_y / CHUNK_SIZE, p_z / CHUNK_SIZE)].blocks[Chunk::From3Dto1D(p_x % CHUNK_SIZE, p_y % CHUNK_SIZE, p_z % CHUNK_SIZE)] = p_blockData;
+	uint16_t chunkElement = From3Dto1D(p_x / CHUNK_SIZE, p_y / CHUNK_SIZE, p_z / CHUNK_SIZE);
+	uint16_t blockElement = Chunk::From3Dto1D(p_x % CHUNK_SIZE, p_y % CHUNK_SIZE, p_z % CHUNK_SIZE);
+
+	if (chunkElement >= WORLD_ELEMENTS_COUNT || blockElement >= CHUNK_ELEMENTS_COUNT)
+		return false;
+
+	m_chunks[chunkElement].blocks[blockElement] = p_blockData;
+
+	if (p_updateChunk)
+	{
+		m_chunks[chunkElement].Update();
+		m_chunks[chunkElement].UpdateNeighBors();
+	}
+
+	return true;
 }
 
 std::array<uint8_t, 3> AmberCraft::World::From1Dto3D(uint16_t p_index)

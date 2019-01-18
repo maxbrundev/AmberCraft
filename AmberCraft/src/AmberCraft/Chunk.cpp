@@ -14,6 +14,27 @@ void AmberCraft::Chunk::FillChunk(BlockType p_blockType)
 	}
 }
 
+void AmberCraft::Chunk::UpdateNeighBors()
+{
+	if (m_chunksNeighbors.left)
+		m_chunksNeighbors.left->Update();
+
+	if (m_chunksNeighbors.right)
+		m_chunksNeighbors.right->Update();
+
+	if (m_chunksNeighbors.top)
+		m_chunksNeighbors.top->Update();
+
+	if (m_chunksNeighbors.bot)
+		m_chunksNeighbors.bot->Update();
+
+	if (m_chunksNeighbors.back)
+		m_chunksNeighbors.back->Update();
+
+	if (m_chunksNeighbors.front)
+		m_chunksNeighbors.front->Update();
+}
+
 AmberCraft::BlockData* AmberCraft::Chunk::GetBlock(uint8_t p_x, uint8_t p_y, uint8_t p_z, ChunkSides p_chunkSide)
 {
 	const int min = 0;

@@ -16,13 +16,17 @@ uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
 uniform sampler2D texture1;
+uniform bool disableShadows;
 
 out flat uint blockType;
+out flat vec3 shadowFilter;
 
 const ivec2 c_atlasSize = textureSize(texture1, 0);
 const float c_textureResolution = 16.0f;
 const float c_textureWidth = c_atlasSize.x / c_textureResolution;
 const float c_textureHeight = c_atlasSize.y / c_textureResolution;
+
+const float c_texelBleedingOffset = 0.00001f;
 
 vec3 BlockOffset;
 
@@ -36,7 +40,6 @@ vec3 CalculateBlockOffset()
 
     return vec3(posX, posY, posZ);
 }
-
 
 bool IsTopFace()
 {
@@ -74,6 +77,15 @@ vec2 GetTexture(uint p_x, uint p_y)
     result.x += p_x / c_textureWidth;
     result.y += (c_textureHeight - 1 - p_y) / c_textureHeight;
 
+	if (aTexCoord.x == 0)
+        result.x += c_texelBleedingOffset;
+    if (aTexCoord.x == 1)
+        result.x -= c_texelBleedingOffset;
+    if (aTexCoord.y == 0)
+        result.y += c_texelBleedingOffset;
+    if (aTexCoord.y == 1)
+        result.y -= c_texelBleedingOffset;
+
     return result;
 }
 
@@ -90,24 +102,29 @@ vec2 CalculateAtlasTextureCoordinates()
     {
         case 1: return GetTripleTexture(0,0, 2,0, 1,0);     // 01: GRASS
         case 2: return GetTexture(2,0);                     // 02: DIRT
-        case 3: return GetTexture(3,1);                     // 03: GRAVEL
-        case 4: return GetTexture(0,1);                     // 04: STONE
-        case 5: return GetTexture(4,1);                     // 05: COBBLESTONE
-        case 6: return GetTripleTexture(1,3, 1,3, 0,3);     // 06: WOOD
-        case 7: return GetTexture(2,2);                     // 07: WOODEN_PLANKS
-        case 8: return GetTexture(2,1);                     // 08: SAND
-        case 9: return GetTexture(1,2);                     // 09: GLASS
-        case 10: return GetTexture(2,3);                    // 10: BRICK
-        case 11: return GetTexture(3,0);                    // 11: STONE_BRICK
-        case 12: return GetTexture(4,0);                    // 12: LEAVES
-        case 13: return GetTripleTexture(1,1, 5,5, 5,5);    // 13: WATER
-        case 14: return GetTexture(0,2);                    // 14: LAVA
-        case 15: return GetTripleTexture(5,5, 5,5, 3,2);    // 15: RED_FLOWER
-        case 16: return GetTripleTexture(5,5, 5,5, 3,3);    // 16: YELLOW_FLOWER
-        case 17: return GetTexture(5,0);                    // 17: COAL_ORE
+        case 3: return GetTexture(0,1);                     // 03: STONE
     }
 
     return vec2(0, 0);
+}
+
+vec3 CalculateShadows()
+{
+	float shadowCoefficient = 1.0f;
+
+	if(IsXFace())
+		shadowCoefficient = 0.9f;
+
+	if(IsZFace())
+		shadowCoefficient = 0.8f;
+
+	if(IsBottomFace())
+		shadowCoefficient = 0.6f;
+
+	if(IsTopFace())
+		shadowCoefficient = 1.0f;
+
+	return vec3(shadowCoefficient, shadowCoefficient, shadowCoefficient);
 }
 
 void main()
@@ -119,6 +136,11 @@ void main()
 	Normal = mat3(transpose(inverse(model))) * aNormal;  
 
     TexCoord = CalculateAtlasTextureCoordinates();
+
+	if(!disableShadows)
+		shadowFilter = CalculateShadows();
+	else
+		shadowFilter = vec3(1.0f, 1.0f, 1.0f);
 
 	gl_Position = projection * view * vec4(FragPos, 1.0);
 }

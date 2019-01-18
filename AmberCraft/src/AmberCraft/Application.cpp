@@ -39,23 +39,8 @@ void RenderEngine::Systems::Application::Run()
 			m_shader.SetUniform1i("disableShadows", disableShadows);
 		}
 
-		//Break block
-		/*if (m_renderingManager.GetInputManager().IsKeyEventOccured(0x52)) 
-		{
-			for (uint16_t currentStep = 0; currentStep < raycastSteps && !raycastHit; ++currentStep)
-			{
-				glm::vec3 raycastHitPoint = (playerPosition + playerForward * raycastDistance * (float)currentStep / raycastSteps + round);
-
-				AmberCraft::BlockType blockFound = m_world.GetBlock(raycastHitPoint.x, raycastHitPoint.y, raycastHitPoint.z).type;
-
-				if (blockFound != AmberCraft::BlockType::AIR)
-				{
-					raycastHit = m_world.SetBlock(raycastHitPoint.x, raycastHitPoint.y, raycastHitPoint.z, AmberCraft::BlockData{ AmberCraft::BlockType::AIR }, true);
-				}
-			}
-		}*/
-
-		if (m_renderingManager.GetInputManager().IsKeyEventOccured(0x52))
+		//BREAK
+		if (m_renderingManager.GetInputManager().IsKeyPressed(0x1))
 		{
 			float raycastDistance = 10;
 			
@@ -63,38 +48,26 @@ void RenderEngine::Systems::Application::Run()
 
 			RayCast(playerPosition, playerForward, raycastDistance, result);
 
-			if(result.type != AmberCraft::BlockType::AIR)
+			if(result.isFound)
 			{
-				m_world.SetBlock(result.collisionPoint.x, result.collisionPoint.y, result.collisionPoint.z, AmberCraft::BlockData{ AmberCraft::BlockType::AIR }, true);
+				m_world.SetBlock(result.blockPosition.x, result.blockPosition.y, result.blockPosition.z, AmberCraft::BlockData{ AmberCraft::BlockType::AIR }, true);
 			}
 		}
-
-		//Add block
-		/*if (m_renderingManager.GetInputManager().IsKeyEventOccured(0x53))
+		//ADD
+		if (m_renderingManager.GetInputManager().IsKeyPressed(0x52))
 		{
-			for (uint16_t currentStep = 0; currentStep < raycastSteps && !raycastHit; ++currentStep)
+			float raycastDistance = 10;
+
+			RaycastCollision result;
+
+			RayCast(playerPosition, playerForward, raycastDistance, result);
+
+			if (result.isFound)
 			{
-				glm::vec3 raycastHitPoint = (playerPos + playerForward * raycastDistance * (float)currentStep / raycastSteps + round);
-
-				AmberCraft::BlockType blockFound = m_world.GetBlock(raycastHitPoint.x, raycastHitPoint.y, raycastHitPoint.z).type;
-
-				glm::vec3 normalHitPoint = playerPosition - raycastHitPoint;
-				glm::normalize(normalHitPoint);
-				glm::abs(normalHitPoint.x);
-
-				std::max(std::max(glm::abs(normalHitPoint.x), glm::abs(normalHitPoint.y)), glm::abs(normalHitPoint.z));
-
-				if (normalHitPoint.x > normalHitPoint.y && normalHitPoint.x > normalHitPoint.z)
-					glm::vec3 newBlockPos(normalHitPoint.x, 0, 0);
-
-
-				if (blockFound == AmberCraft::BlockType::AIR)
-				{
-					raycastHit = m_world.SetBlock(raycastHitPoint.x, raycastHitPoint.y, raycastHitPoint.z, AmberCraft::BlockData{ AmberCraft::BlockType::DIRT }, true);
-				}
+				m_world.SetBlock(result.blockPosition.x + result.collisionFaceNormal.x, result.blockPosition.y + result.collisionFaceNormal.y, result.blockPosition.z + result.collisionFaceNormal.z, AmberCraft::BlockData{ AmberCraft::BlockType::DIRT }, true);
 			}
-		}*/
-		//Temporary Player
+		}
+		//Temporary Player controller
 
 		m_world.Draw(m_renderingManager);
 
@@ -129,25 +102,29 @@ void RenderEngine::Systems::Application::RayCast(glm::vec3 p_source, glm::vec3 p
 
 	for (uint16_t currentStep = 0; currentStep < raycastSteps && !result.isFound; ++currentStep)
 	{
-		glm::vec3 raycastHitPoint = (p_source + p_direction * p_maxDistance * (currentStep / raycastSteps) + round);
+		glm::vec3 raycastHitPoint = p_source + p_direction * p_maxDistance * (currentStep / raycastSteps);
+		glm::vec3 raycastBlockPosition = glm::round(raycastHitPoint);
 
-		result.type = m_world.GetBlock(raycastHitPoint.x, raycastHitPoint.y, raycastHitPoint.z).type;
+		result.type = m_world.GetBlock(raycastBlockPosition.x, raycastBlockPosition.y, raycastBlockPosition.z).type;
 
-		result.isFound = true;
-		result.collisionPoint = raycastHitPoint;
-		result.blockPosition.x = glm::round(raycastHitPoint.x);
-		result.blockPosition.y = glm::round(raycastHitPoint.y);
-		result.blockPosition.z = glm::round(raycastHitPoint.z);
-		result.blockToCollisionPointDirection = glm::normalize(result.collisionPoint - result.blockPosition);
+		if (result.type != AmberCraft::BlockType::AIR)
+		{
+			result.isFound = true;
+			result.collisionPoint = raycastHitPoint;
+			result.blockPosition.x = raycastBlockPosition.x;
+			result.blockPosition.y = raycastBlockPosition.y;
+			result.blockPosition.z = raycastBlockPosition.z;
 
+			result.blockToCollisionPointDirection = glm::normalize(result.collisionPoint - result.blockPosition);
 
-		/* Calculate face normal */
-		/*glm::vec3 unsignedDirectionFromBlockToImpact = glm::vec3(std::abs(result.blockToCollisionPointDirection.x), std::abs(result.blockToCollisionPointDirection.y), std::abs(result.blockToCollisionPointDirection.z));
-		if (unsignedDirectionFromBlockToImpact.x > unsignedDirectionFromBlockToImpact.y && unsignedDirectionFromBlockToImpact.x > unsignedDirectionFromBlockToImpact.z)
-			result.collisionFaceNormal = result.blockToCollisionPointDirection.x > 0 ? glm::vec3(1.f, 0.f, 0.f) : glm::vec3(-1.f, 0.f, 0.f);
-		else if (unsignedDirectionFromBlockToImpact.y > unsignedDirectionFromBlockToImpact.x && unsignedDirectionFromBlockToImpact.y > unsignedDirectionFromBlockToImpact.z)
-			result.collisionFaceNormal = result.blockToCollisionPointDirection.y > 0 ? glm::vec3(0.f, 1.f, 0.f) : glm::vec3(0.f, -1.f, 0.f);
-		else
-			result.collisionFaceNormal = result.blockToCollisionPointDirection.z > 0 ? glm::vec3(0.f, 0.f, 1.f) : glm::vec3(0.f, 0.f, -1.f);*/
+			/* Calculate face normal */
+			glm::vec3 unsignedDirectionFromBlockToImpact = glm::vec3(std::abs(result.blockToCollisionPointDirection.x), std::abs(result.blockToCollisionPointDirection.y), std::abs(result.blockToCollisionPointDirection.z));
+			if (unsignedDirectionFromBlockToImpact.x > unsignedDirectionFromBlockToImpact.y && unsignedDirectionFromBlockToImpact.x > unsignedDirectionFromBlockToImpact.z)
+				result.collisionFaceNormal = result.blockToCollisionPointDirection.x > 0 ? glm::vec3(1.f, 0.f, 0.f) : glm::vec3(-1.f, 0.f, 0.f);
+			else if (unsignedDirectionFromBlockToImpact.y > unsignedDirectionFromBlockToImpact.x && unsignedDirectionFromBlockToImpact.y > unsignedDirectionFromBlockToImpact.z)
+				result.collisionFaceNormal = result.blockToCollisionPointDirection.y > 0 ? glm::vec3(0.f, 1.f, 0.f) : glm::vec3(0.f, -1.f, 0.f);
+			else
+				result.collisionFaceNormal = result.blockToCollisionPointDirection.z > 0 ? glm::vec3(0.f, 0.f, 1.f) : glm::vec3(0.f, 0.f, -1.f);
+		}
 	}
 }

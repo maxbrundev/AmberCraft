@@ -9,6 +9,7 @@ namespace AmberCraft
 		AIR,
 		GRASS,
 		DIRT,
-		ROCK
+		ROCK,
+		BRICK
 	};
 }

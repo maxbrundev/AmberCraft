@@ -89,12 +89,12 @@ void AmberCraft::World::Draw(AmberEngine::Managers::RenderingManager& p_renderin
 
 	auto& chunkShader = p_renderingManager.GetResourcesManager().GetShader("chunk");
 
-	p_renderingManager.GetResourcesManager().GetTexture("dirt").Bind();
+	p_renderingManager.GetResourcesManager().GetTexture("atlasBlocks").Bind();
 
 	chunkShader.Bind();
 	chunkShader.SetUniformMat4("projection", projectionMatrix);
 	chunkShader.SetUniformMat4("view", viewMatrix);
-	chunkShader.SetUniform1i("texture1", 0);
+	chunkShader.SetUniform1i("atlas", 0);
 	
 	for (uint16_t i = 0; i < WORLD_ELEMENTS_COUNT; ++i)
 	{

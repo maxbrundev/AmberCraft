@@ -1,15 +1,20 @@
-#version 430 core
+#version 460 core
 out vec4 FragColor;
 
 in vec2 TexCoord;
 in vec3 Normal;
 
-uniform sampler2D texture1;
+in float Visibility;
 in flat vec3 shadowFilter;
 
+uniform sampler2D atlas;
+uniform vec3 skyColour;
 
 void main()
-{   vec3 norm = normalize(Normal);
+{
+    vec3 norm = normalize(Normal);
     //FragColor = vec4(norm * 0.5 + 0.5, 1.0);
-    FragColor = texture(texture1, TexCoord) * vec4(shadowFilter, 1.0);
+
+    FragColor = texture(atlas, TexCoord) * vec4(shadowFilter, 1.0);
+    FragColor = mix(vec4(skyColour, 1.0), FragColor, Visibility);
 }

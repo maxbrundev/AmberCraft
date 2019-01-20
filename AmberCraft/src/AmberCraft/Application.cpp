@@ -10,12 +10,13 @@ RenderEngine::Systems::Application::Application() : disableShadows(false)
 	m_shader = m_renderingManager.GetResourcesManager().LoadShaderFiles("chunk", "chunk.vs", "chunk.fs");
 	m_shader.Bind();
 	m_shader.SetUniform1i("disableShadows", disableShadows);
+	m_shader.SetUniformVec3("skyColour", glm::vec3(0.5, 0.5, 0.5));
 	m_shader.Unbind();
 }
 
 void RenderEngine::Systems::Application::Setup()
 {
-	AmberEngine::Resources::Texture& texture = m_renderingManager.GetResourcesManager().LoadTexture("dirt", "blocks.png");
+	AmberEngine::Resources::Texture& texture = m_renderingManager.GetResourcesManager().LoadTexture("atlasBlocks", "blocks.png");
 }
 
 void RenderEngine::Systems::Application::Run()
@@ -23,12 +24,16 @@ void RenderEngine::Systems::Application::Run()
 	m_world.GenerateTerrain();
 	m_world.Update();
 
+	AmberCraft::BlockType blocks[4] = { AmberCraft::BlockType::GRASS, AmberCraft::BlockType::DIRT, AmberCraft::BlockType::ROCK, AmberCraft::BlockType::BRICK };
+	float spacing = ImGui::GetStyle().ItemInnerSpacing.x;
 	while (m_renderingManager.IsRunning())
 	{
 		m_renderingManager.Clear();
 		m_renderingManager.Update();
-
+		
 		//Temporary Player controller
+		static int counter = 0;
+
 		glm::vec3 playerPosition = m_renderingManager.GetCamera().GetPosition();
 		glm::vec3 playerForward = m_renderingManager.GetCamera().GetForward();
 
@@ -40,7 +45,7 @@ void RenderEngine::Systems::Application::Run()
 		}
 
 		//BREAK
-		if (m_renderingManager.GetInputManager().IsKeyPressed(0x1))
+		if (m_renderingManager.GetInputManager().IsKeyEventOccured(0x1))
 		{
 			float raycastDistance = 10;
 			
@@ -54,7 +59,7 @@ void RenderEngine::Systems::Application::Run()
 			}
 		}
 		//ADD
-		if (m_renderingManager.GetInputManager().IsKeyPressed(0x52))
+		if (m_renderingManager.GetInputManager().IsKeyEventOccured(0x2))
 		{
 			float raycastDistance = 10;
 
@@ -64,23 +69,36 @@ void RenderEngine::Systems::Application::Run()
 
 			if (result.isFound)
 			{
-				m_world.SetBlock(result.blockPosition.x + result.collisionFaceNormal.x, result.blockPosition.y + result.collisionFaceNormal.y, result.blockPosition.z + result.collisionFaceNormal.z, AmberCraft::BlockData{ AmberCraft::BlockType::DIRT }, true);
+				m_world.SetBlock(result.blockPosition.x + result.collisionFaceNormal.x, result.blockPosition.y + result.collisionFaceNormal.y, result.blockPosition.z + result.collisionFaceNormal.z, AmberCraft::BlockData{ blocks[counter] }, true);
 			}
 		}
 		//Temporary Player controller
 
 		m_world.Draw(m_renderingManager);
 
+
+		if (counter > 3)
+			counter = 0;
+
 		std::array<uint64_t, 3> playerRoundedPos;
 		playerRoundedPos[0] = glm::round(playerPosition.x);
 		playerRoundedPos[1] = glm::round(playerPosition.y);
 		playerRoundedPos[2] = glm::round(playerPosition.z);
 
+		//ImGUI
 		ImGui::Begin("Scene");
 		ImGui::Text("Camera Position X: %.1f Y: %.1f Z: %.1f", playerPosition.x, playerPosition.y, playerPosition.z);
 		ImGui::Text("Overlapped Chunk [%.1i, %.1i]", static_cast<int>(playerPosition.x / 16), static_cast<int>(playerPosition.z / 16));
 		ImGui::Text("Layer Level [%.1i]", static_cast<int>(playerPosition.y / 16));
 		ImGui::Text("Overlapped Block %.1u", m_world.GetBlock(playerRoundedPos[0], playerRoundedPos[1], playerRoundedPos[2]));
+
+		
+		if (ImGui::ArrowButton("##left", ImGuiDir_Left)) { counter--; }
+		ImGui::SameLine();
+		ImGui::Text("Block Type %d ", counter);
+		ImGui::SameLine(0.0f, spacing);
+		if (ImGui::ArrowButton("##right", ImGuiDir_Right)) { counter++; }
+		ImGui::SameLine();
 		ImGui::End();
 
 		m_renderingManager.SwapBuffers();

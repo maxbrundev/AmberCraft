@@ -34,8 +34,6 @@ void AmberCraft::World::GenerateTerrain()
 {
 	for (uint16_t i = 0; i < WORLD_ELEMENTS_COUNT; ++i)
 	{
-		auto[x, y, z] = From1Dto3D(i);
-
 		m_chunks[i].FillChunk(BlockType::AIR);
 	}
 

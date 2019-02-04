@@ -69,7 +69,6 @@ void AmberCraft::World::GenerateTerrain()
 			}
 		}
 	}
-
 }
 
 void AmberCraft::World::Update()
@@ -98,7 +97,7 @@ void AmberCraft::World::Draw(AmberEngine::Managers::RenderingManager& p_renderin
 	{
 		auto [x, y, z] = From1Dto3D(i);
 
-		glm::vec3 chunkPosition(x * CHUNK_SIZE, y * CHUNK_SIZE, z * CHUNK_SIZE);
+		glm::vec3 chunkPosition((x - WORLD_SIZE / 2) * CHUNK_SIZE, y * CHUNK_SIZE, (z - WORLD_SIZE / 2) * CHUNK_SIZE);
 
 		if(glm::distance(chunkPosition, p_renderingManager.GetCamera().GetPosition()) <= 200)
 		{
@@ -110,8 +109,8 @@ void AmberCraft::World::Draw(AmberEngine::Managers::RenderingManager& p_renderin
 
 AmberCraft::BlockData AmberCraft::World::GetBlock(uint64_t p_x, uint64_t p_y, uint64_t p_z)
 {
-	uint16_t chunkElement = From3Dto1D(p_x / CHUNK_SIZE, p_y / CHUNK_SIZE, p_z / CHUNK_SIZE);
-	uint16_t blockElement = Chunk::From3Dto1D(p_x % CHUNK_SIZE, p_y % CHUNK_SIZE, p_z % CHUNK_SIZE);
+	uint16_t chunkElement = From3Dto1D((p_x / CHUNK_SIZE) + WORLD_SIZE / 2, p_y / CHUNK_SIZE, (p_z / CHUNK_SIZE) + WORLD_SIZE / 2);
+	uint16_t blockElement = Chunk::From3Dto1D((p_x + WORLD_SIZE / 2 * CHUNK_SIZE) % CHUNK_SIZE, p_y % CHUNK_SIZE, (p_z + WORLD_SIZE / 2 * CHUNK_SIZE) % CHUNK_SIZE);
 
 	if (chunkElement >= WORLD_ELEMENTS_COUNT || blockElement >= CHUNK_ELEMENTS_COUNT)
 		return BlockData{BlockType::AIR};
@@ -121,8 +120,8 @@ AmberCraft::BlockData AmberCraft::World::GetBlock(uint64_t p_x, uint64_t p_y, ui
 
 bool AmberCraft::World::SetBlock(uint64_t p_x, uint64_t p_y, uint64_t p_z, BlockData p_blockData, bool p_updateChunk)
 {
-	uint16_t chunkElement = From3Dto1D(p_x / CHUNK_SIZE, p_y / CHUNK_SIZE, p_z / CHUNK_SIZE);
-	uint16_t blockElement = Chunk::From3Dto1D(p_x % CHUNK_SIZE, p_y % CHUNK_SIZE, p_z % CHUNK_SIZE);
+	uint16_t chunkElement = From3Dto1D((p_x / CHUNK_SIZE) + WORLD_SIZE / 2, p_y / CHUNK_SIZE, (p_z / CHUNK_SIZE) + WORLD_SIZE / 2);
+	uint16_t blockElement = Chunk::From3Dto1D((p_x + WORLD_SIZE / 2 * CHUNK_SIZE) % CHUNK_SIZE, p_y % CHUNK_SIZE, (p_z + WORLD_SIZE / 2 * CHUNK_SIZE) % CHUNK_SIZE);
 
 	if (chunkElement >= WORLD_ELEMENTS_COUNT || blockElement >= CHUNK_ELEMENTS_COUNT)
 		return false;

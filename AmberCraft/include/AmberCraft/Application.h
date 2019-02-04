@@ -1,6 +1,6 @@
 #pragma once
 
-#include "AmberEngine/Managers/RenderingManager.h"
+#include <AmberEngine/Managers/RenderingManager.h>
 #include "AmberCraft/World.h"
 
 namespace RenderEngine

@@ -1,9 +1,9 @@
 #include "pch.h"
 
-#include "AmberEngine/ImGui/imgui.h"
+#include <AmberEngine/ImGUI/imgui.h>
 
 #include "AmberCraft/Application.h"
-#include "AmberCraft/Blocktype.h"
+#include "AmberCraft/BlockType.h"
 
 RenderEngine::Systems::Application::Application() : disableShadows(false)
 {

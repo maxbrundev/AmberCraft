@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Chunk.h"
-#include "AmberEngine/Managers/RenderingManager.h"
+#include <AmberEngine/Managers/RenderingManager.h>
 
 #define WORLD_SIZE 20
 #define WORLD_ELEMENTS_COUNT WORLD_SIZE * WORLD_SIZE * WORLD_SIZE

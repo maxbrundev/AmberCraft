@@ -23,7 +23,7 @@ void RenderEngine::Systems::Application::Run()
 {
 	m_world.GenerateTerrain();
 	m_world.Update();
-
+	m_renderingManager.GetCamera().SetPosition(0.0f, 0.0f, 0.0f);
 	AmberCraft::BlockType blocks[4] = { AmberCraft::BlockType::GRASS, AmberCraft::BlockType::DIRT, AmberCraft::BlockType::ROCK, AmberCraft::BlockType::BRICK };
 	float spacing = ImGui::GetStyle().ItemInnerSpacing.x;
 	while (m_renderingManager.IsRunning())

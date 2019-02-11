@@ -64,7 +64,7 @@ void AmberCraft::World::GenerateTerrain()
 				else
 					newBlock.type = BlockType::ROCK;
 
-				SetBlock(static_cast<uint64_t>(x), static_cast<uint64_t>(currentHeight), static_cast<uint64_t>(z), newBlock);
+				SetBlock(static_cast<uint64_t>(x) - (WORLD_SIZE / 2) * CHUNK_SIZE, static_cast<uint64_t>(currentHeight), static_cast<uint64_t>(z) - (WORLD_SIZE / 2) * CHUNK_SIZE, newBlock);
 				++layer;
 			}
 		}

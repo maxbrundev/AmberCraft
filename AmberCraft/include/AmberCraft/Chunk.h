@@ -10,6 +10,8 @@ namespace AmberCraft
 {
 	class Chunk
 	{
+	public:
+	private:
 		enum class ChunkSides
 		{
 			LEFT,
@@ -31,33 +33,49 @@ namespace AmberCraft
 		};
 
 	public:
-		BlockData blocks[CHUNK_ELEMENTS_COUNT];
-		
-	private:
-		ChunkBuffers m_chunkBuffers;
-		ChunkNeighbors m_chunksNeighbors;
-		uint16_t m_blocksToRenderCount;
-		bool m_isOccluded;
+		Chunk(const glm::ivec3& p_position);
 
-	public:
-		Chunk();
+		Chunk(const Chunk& other)            = default;
+		Chunk(Chunk&& other)                 = default;
+		Chunk& operator=(const Chunk& other) = default;
+		Chunk& operator=(Chunk&& other)      = default;
+
 		~Chunk() = default;
 
-		void FillChunk(BlockType p_blockType = BlockType::DIRT);
-		void UpdateNeighBors();
-
-		BlockData* GetBlock(uint8_t p_x, uint8_t p_y, uint8_t p_z, ChunkSides p_chunkSide);
-
-		void Update();
-		void Draw();
-
+		void Fill(BlockType p_blockType = BlockType::DIRT);
 		void SetChunksNeighbors(Chunk* p_left, Chunk* p_right, Chunk* p_top, Chunk* p_bot, Chunk* p_front, Chunk* p_back);
+		void UpdateNeighBors() const;
 
 		bool IsBlockOccluded(uint8_t p_x, uint8_t p_y, uint8_t p_z);
 		
-		std::vector<GLuint> FillBlocksToRender();
+		BlockData* GetBlock(uint8_t p_x, uint8_t p_y, uint8_t p_z, ChunkSides p_chunkSide);
+
+		std::vector<uint32_t> FillBlocksToRender();
+
+		void UpdateBlocksToRender();
+		void Draw() const;
+
+		bool IsOccluded() const;
+
+		glm::ivec3 GetChunkCoordinatePosition() const;
+		glm::ivec3 GetWorldCoordinatePosition() const;
+
+		void SetPosition(const glm::ivec3& p_position);
 
 		static std::array<uint8_t, 3> From1Dto3D(uint16_t p_index);
 		static uint16_t From3Dto1D(uint8_t p_x, uint8_t p_y, uint8_t p_z);
+
+	public:
+		BlockData blocks[CHUNK_ELEMENTS_COUNT];
+
+	private:
+		ChunkBuffers m_chunkBuffers;
+		ChunkNeighbors m_chunksNeighbors;
+
+		glm::ivec3 m_chunkCoordinatePosition;
+
+		uint16_t m_blocksToRenderCount;
+
+		bool m_isOccluded;
 	};
 }

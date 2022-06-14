@@ -41,7 +41,7 @@ void AmberCraft::ChunkBuffers::InitBuffers()
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 }
 
-void AmberCraft::ChunkBuffers::SendBlocksToGPU(const std::vector<GLuint>& p_blocksToRender)
+void AmberCraft::ChunkBuffers::SendBlocksToGPU(const std::vector<GLuint>& p_blocksToRender) const
 {
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, m_ssbo);
 	glBufferData(GL_SHADER_STORAGE_BUFFER, p_blocksToRender.size() * sizeof(GLuint), p_blocksToRender.data(), GL_DYNAMIC_DRAW);
@@ -51,7 +51,7 @@ void AmberCraft::ChunkBuffers::SendBlocksToGPU(const std::vector<GLuint>& p_bloc
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 }
 
-void AmberCraft::ChunkBuffers::DrawChunk(uint16_t p_blocksToRenderCount)
+void AmberCraft::ChunkBuffers::DrawChunk(uint16_t p_blocksToRenderCount) const
 {
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, m_ssbo);
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, m_ssbo);

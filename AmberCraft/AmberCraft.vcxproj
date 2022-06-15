@@ -223,6 +223,8 @@ xcopy "$(SolutionDir)..\Dependencies\AmberEngine\bin\$(Platform)\$(Configuration
   <ItemGroup>
     <None Include="res\shaders\chunk.fs" />
     <None Include="res\shaders\chunk.vs" />
+    <None Include="res\shaders\outline.fs" />
+    <None Include="res\shaders\outline.vs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,8 +1,14 @@
 #include "pch.h"
 
 #include <AmberEngine/ImGUI/imgui.h>
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/transform.hpp>
 
 #include "AmberCraft/Application.h"
+
+#include <iostream>
+
+#include "AmberCraft/BlockGeometry.h"
 #include "AmberCraft/Chunk.h"
 
 RenderEngine::Systems::Application::Application() : disableShadows(false)
@@ -12,6 +18,33 @@ RenderEngine::Systems::Application::Application() : disableShadows(false)
 	m_shader.SetUniform1i("disableShadows", disableShadows);
 	m_shader.SetUniformVec3("skyColour", glm::vec3(0.5, 0.5, 0.5));
 	m_shader.Unbind();
+
+	//Temporary Outline implementation
+	m_shaderOutline = new AmberEngine::Resources::Shader("res/shaders/outline.vs", "res/shaders/outline.fs");
+	AmberCraft::BlockGeometry::Setup();
+	const auto& vertices = AmberCraft::BlockGeometry::GetVertices();
+	
+	glGenVertexArrays(1, &m_vao);
+	glBindVertexArray(m_vao);
+	
+	glGenBuffers(1, &m_vbo);
+	glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
+	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(AmberCraft::BlockVertex), vertices.data(), GL_STATIC_DRAW);
+	
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(AmberCraft::BlockVertex), nullptr);
+	
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(AmberCraft::BlockVertex), reinterpret_cast<void*>(offsetof(AmberCraft::BlockVertex, textureCoord)));
+	
+	glBindVertexArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+
+RenderEngine::Systems::Application::~Application()
+{
+	delete m_shaderOutline;
+	m_shaderOutline = nullptr;
 }
 
 void RenderEngine::Systems::Application::Setup()
@@ -42,6 +75,8 @@ void RenderEngine::Systems::Application::Run()
 		glm::vec3 playerPosition = m_renderingManager.GetCamera().GetPosition();
 		glm::vec3 playerForward  = m_renderingManager.GetCamera().GetForward();
 
+		m_world.UpdateChuncksFromPlayerPosition(playerPosition);
+
 		std::array<uint64_t, 3> playerRoundedPos;
 		playerRoundedPos[0] = glm::round(playerPosition.x);
 		playerRoundedPos[1] = glm::round(playerPosition.y);
@@ -54,8 +89,6 @@ void RenderEngine::Systems::Application::Run()
 		{
 			currentChunkPosition = currentChunk->GetChunkCoordinatePosition();
 		}
-
-		m_world.UpdateChuncksFromPlayerPosition(playerPosition);
 
 		auto pos = AmberCraft::World::PositionToChunkCoordinate(playerRoundedPos[0], playerRoundedPos[1], playerRoundedPos[2]);
 
@@ -74,8 +107,6 @@ void RenderEngine::Systems::Application::Run()
 
 			m_world.SetNeighbors();
 		}
-
-
 
 		//ImGUI
 		ImGui::Begin("Scene");
@@ -146,6 +177,27 @@ void RenderEngine::Systems::Application::Run()
 		}
 
 		m_world.Draw(m_renderingManager);
+
+
+		//Temporary Outline implementation
+		float raycastDistance = 10;
+		RaycastCollision result;
+		RayCast(playerPosition, playerForward, raycastDistance, result);
+
+		if (result.isFound)
+		{
+			const glm::mat4 projectionMatrix = m_renderingManager.CalculateProjectionMatrix();
+			const glm::mat4 viewMatrix = m_renderingManager.CalculateViewMatrix();
+		
+			m_shaderOutline->Bind();
+			m_shaderOutline->SetUniformMat4("model", glm::translate(glm::mat4(1.0f), result.blockPosition));
+			m_shaderOutline->SetUniformMat4("view", viewMatrix);
+			m_shaderOutline->SetUniformMat4("projection", projectionMatrix);
+		
+			glBindVertexArray(m_vao);
+			glDrawArrays(GL_TRIANGLES, 0, 36);
+			glBindVertexArray(0);
+		}
 
 		m_renderingManager.SwapBuffers();
 	}

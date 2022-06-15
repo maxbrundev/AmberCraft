@@ -72,5 +72,7 @@
   <ItemGroup>
     <None Include="res\shaders\chunk.fs" />
     <None Include="res\shaders\chunk.vs" />
+    <None Include="res\shaders\outline.fs" />
+    <None Include="res\shaders\outline.vs" />
   </ItemGroup>
 </Project>

@@ -22,7 +22,7 @@ namespace RenderEngine
 		{
 		public:
 			Application();
-			~Application() = default;
+			~Application();
 			void Setup();
 			void Run();
 
@@ -31,8 +31,13 @@ namespace RenderEngine
 		private:
 			AmberEngine::Managers::RenderingManager m_renderingManager;
 			AmberEngine::Resources::Shader m_shader;
+			AmberEngine::Resources::Shader* m_shaderOutline;
 			AmberCraft::World m_world;
 			bool disableShadows;
+			GLuint m_vao{};
+			GLuint m_vbo{};
+			GLuint m_ssbo{};
+
 		};
 	}
 }

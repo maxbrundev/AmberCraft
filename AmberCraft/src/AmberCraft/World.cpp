@@ -151,7 +151,7 @@ void AmberCraft::World::GenerateTerrain() const
 				else
 					newBlock.type = BlockType::ROCK;
 
-				SetBlock(static_cast<uint64_t>(x) - (WORLD_SIZE / 2) * CHUNK_SIZE, static_cast<uint64_t>(currentHeight), static_cast<uint64_t>(z) - (WORLD_SIZE / 2) * CHUNK_SIZE, newBlock);
+				SetBlock(static_cast<uint64_t>(x) - (WORLD_SIZE / 2) * CHUNK_SIZE, static_cast<uint64_t>(currentHeight) - (WORLD_SIZE / 2) * CHUNK_SIZE, static_cast<uint64_t>(z) - (WORLD_SIZE / 2) * CHUNK_SIZE, newBlock);
 
 				++layer;
 			}
@@ -225,11 +225,6 @@ void AmberCraft::World::Draw(AmberEngine::Managers::RenderingManager& p_renderin
 	
 	for (int i = 0; i < m_chunks.size(); i++)
 	{
-		auto[x, y, z] = From1Dto3D(i);
-
-		//shift all world (visual loop player always on thew same chunk)
-		//glm::vec3 chunkPosition(((x + m_offsetX) - WORLD_SIZE / 2) * CHUNK_SIZE, y * CHUNK_SIZE, ((z + m_offsetZ) - WORLD_SIZE / 2) * CHUNK_SIZE);
-
 		const glm::vec3 chunkPosition = m_chunks[i]->GetWorldCoordinatePosition();
 
 		chunkShader.SetUniformMat4("model", glm::translate(glm::mat4(1.0f), chunkPosition));
@@ -249,11 +244,8 @@ AmberCraft::Chunk* AmberCraft::World::GetChunk(uint64_t p_x, uint64_t p_y, uint6
 
 AmberCraft::BlockData AmberCraft::World::GetBlock(uint64_t p_x, uint64_t p_y, uint64_t p_z) const
 {
-	const uint16_t chunkElement = From3Dto1D((p_x / CHUNK_SIZE) + WORLD_SIZE / 2, p_y / CHUNK_SIZE, (p_z / CHUNK_SIZE) + WORLD_SIZE / 2);
-	const uint16_t blockElement = Chunk::From3Dto1D((p_x + WORLD_SIZE / 2 * CHUNK_SIZE) % CHUNK_SIZE, p_y % CHUNK_SIZE, (p_z + WORLD_SIZE / 2 * CHUNK_SIZE) % CHUNK_SIZE);
-
-	//uint16_t chunkElement = From3Dto1D((p_x / CHUNK_SIZE) + WORLD_SIZE / 2, (p_y / CHUNK_SIZE) + WORLD_SIZE, (p_z / CHUNK_SIZE) + WORLD_SIZE / 2);
-	//uint16_t blockElement = Chunk::From3Dto1D((p_x + WORLD_SIZE / 2 * CHUNK_SIZE) % CHUNK_SIZE, (p_y + WORLD_SIZE * CHUNK_SIZE) % CHUNK_SIZE, (p_z + WORLD_SIZE / 2 * CHUNK_SIZE) % CHUNK_SIZE);
+	const uint16_t chunkElement = From3Dto1D(p_x / CHUNK_SIZE + WORLD_SIZE / 2, p_y / CHUNK_SIZE + WORLD_SIZE / 2, p_z / CHUNK_SIZE + WORLD_SIZE / 2);
+	const uint16_t blockElement = Chunk::From3Dto1D((p_x + WORLD_SIZE / 2 * CHUNK_SIZE) % CHUNK_SIZE, (p_y + WORLD_SIZE / 2 * CHUNK_SIZE) % CHUNK_SIZE, (p_z + WORLD_SIZE / 2 * CHUNK_SIZE) % CHUNK_SIZE);
 
 	if (chunkElement >= m_chunks.size() || blockElement >= CHUNK_ELEMENTS_COUNT)
 		return BlockData{BlockType::AIR};
@@ -263,11 +255,8 @@ AmberCraft::BlockData AmberCraft::World::GetBlock(uint64_t p_x, uint64_t p_y, ui
 
 bool AmberCraft::World::SetBlock(uint64_t p_x, uint64_t p_y, uint64_t p_z, BlockData p_blockData, bool p_updateChunk) const
 {
-	const uint16_t chunkElement = From3Dto1D((p_x / CHUNK_SIZE) + WORLD_SIZE / 2, p_y / CHUNK_SIZE, (p_z / CHUNK_SIZE) + WORLD_SIZE / 2);
-	const uint16_t blockElement = Chunk::From3Dto1D((p_x + WORLD_SIZE / 2 * CHUNK_SIZE) % CHUNK_SIZE, p_y % CHUNK_SIZE, (p_z + WORLD_SIZE / 2 * CHUNK_SIZE) % CHUNK_SIZE);
-
-	//uint16_t chunkElement = From3Dto1D((p_x / CHUNK_SIZE) + WORLD_SIZE / 2, (p_y / CHUNK_SIZE) + WORLD_SIZE, (p_z / CHUNK_SIZE) + WORLD_SIZE / 2);
-	//uint16_t blockElement = Chunk::From3Dto1D((p_x + WORLD_SIZE / 2 * CHUNK_SIZE) % CHUNK_SIZE, (p_y + WORLD_SIZE * CHUNK_SIZE) % CHUNK_SIZE, (p_z + WORLD_SIZE / 2 * CHUNK_SIZE) % CHUNK_SIZE);
+	const uint16_t chunkElement = From3Dto1D(p_x / CHUNK_SIZE + WORLD_SIZE / 2, p_y / CHUNK_SIZE + WORLD_SIZE / 2, p_z / CHUNK_SIZE + WORLD_SIZE / 2);
+	const uint16_t blockElement = Chunk::From3Dto1D((p_x + WORLD_SIZE / 2 * CHUNK_SIZE) % CHUNK_SIZE, (p_y + WORLD_SIZE / 2 * CHUNK_SIZE) % CHUNK_SIZE, (p_z + WORLD_SIZE / 2 * CHUNK_SIZE) % CHUNK_SIZE);
 
 	if (chunkElement >= m_chunks.size() || blockElement >= CHUNK_ELEMENTS_COUNT)
 		return false;
@@ -306,7 +295,7 @@ std::array<uint64_t, 3> AmberCraft::World::PositionToChunkCoordinate(uint64_t p_
 	std::array<uint64_t, 3> result;
 
 	result[0] = p_x / CHUNK_SIZE + WORLD_SIZE / 2;
-	result[1] = p_y / CHUNK_SIZE;
+	result[1] = p_y / CHUNK_SIZE + WORLD_SIZE / 2;
 	result[2] = p_z / CHUNK_SIZE + WORLD_SIZE / 2;
 
 	return result;

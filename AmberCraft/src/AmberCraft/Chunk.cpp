@@ -219,7 +219,7 @@ glm::ivec3 AmberCraft::Chunk::GetWorldCoordinatePosition() const
 	glm::ivec3 chunkPosition = GetChunkCoordinatePosition();
 
 	chunkPosition.x = (chunkPosition.x - WORLD_SIZE / 2) * CHUNK_SIZE;
-	chunkPosition.y = chunkPosition.y * CHUNK_SIZE;
+	chunkPosition.y = (chunkPosition.y - WORLD_SIZE / 2) * CHUNK_SIZE;
 	chunkPosition.z = (chunkPosition.z - WORLD_SIZE / 2) * CHUNK_SIZE;
 
 	return chunkPosition;

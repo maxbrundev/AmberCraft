@@ -2,6 +2,8 @@
 
 #include "AmberCraft/World.h"
 
+#include <iostream>
+
 #include "AmberCraft/FastNoise.h"
 
 AmberCraft::World::World()
@@ -127,33 +129,44 @@ void AmberCraft::World::GenerateTerrain() const
 	FastNoise perlinNoise;
 	perlinNoise.SetSeed(747);
 
-	uint64_t surfaceLength = WORLD_SIZE * CHUNK_SIZE;
 	const float frequency = 5.0f; // Higher frequency implies abrupt terrain
 	const float amplitude = 20;
 	const float minimumHeight = 64;
 
-	for (uint64_t z = 0; z < surfaceLength; z++)
+	for (uint64_t z = 0; z < WORLD_SIZE; ++z)
 	{
-		for (uint64_t x = 0; x < surfaceLength; x++)
+		for (uint64_t x = 0; x < WORLD_SIZE; ++x)
 		{
-			const float perlinValue = (((perlinNoise.GetPerlin(x * frequency, z * frequency) + 1.0f) / 2.0f) * amplitude) + minimumHeight - amplitude * 0.5f;
-
-			uint8_t layer = 0;
-
-			for(int16_t currentHeight = static_cast<int16_t>(perlinValue); currentHeight >= 0; currentHeight--)
+			for (uint64_t zBlock = 0; zBlock < CHUNK_SIZE; ++zBlock)
 			{
-				BlockData newBlock;
-
-				if (layer == 0)
-					newBlock.type = BlockType::GRASS;
-				else if (layer <= 2)
-					newBlock.type = BlockType::DIRT;
-				else
-					newBlock.type = BlockType::ROCK;
-
-				SetBlock(static_cast<uint64_t>(x) - (WORLD_SIZE / 2) * CHUNK_SIZE, static_cast<uint64_t>(currentHeight) - (WORLD_SIZE / 2) * CHUNK_SIZE, static_cast<uint64_t>(z) - (WORLD_SIZE / 2) * CHUNK_SIZE, newBlock);
-
-				++layer;
+				for (uint64_t xBlock = 0; xBlock < CHUNK_SIZE; ++xBlock)
+				{
+					int64_t localX = xBlock + x * CHUNK_SIZE;
+					int64_t localZ = zBlock + z * CHUNK_SIZE;
+	
+					int64_t worldX = localX - WORLD_SIZE / 2 * CHUNK_SIZE;
+					int64_t worldZ = localZ - WORLD_SIZE / 2 * CHUNK_SIZE;
+	
+					const float perlinValue = (perlinNoise.GetPerlin(worldX * frequency, worldZ * frequency) + 1.0f) / 2.0f * amplitude + minimumHeight - amplitude * 0.5f;
+	
+					uint8_t layer = 0;
+	
+					for (int16_t currentHeight = static_cast<int16_t>(perlinValue); currentHeight >= 0; currentHeight--)
+					{
+						BlockData newBlock;
+	
+						if (layer == 0)
+							newBlock.type = BlockType::GRASS;
+						else if (layer <= 2)
+							newBlock.type = BlockType::DIRT;
+						else
+							newBlock.type = BlockType::ROCK;
+	
+						SetBlock(static_cast<uint64_t>(worldX), static_cast<uint64_t>(currentHeight) - WORLD_SIZE / 2 * CHUNK_SIZE, static_cast<uint64_t>(worldZ), newBlock);
+	
+						++layer;
+					}
+				}
 			}
 		}
 	}
@@ -234,7 +247,7 @@ void AmberCraft::World::Draw(AmberEngine::Managers::RenderingManager& p_renderin
 
 AmberCraft::Chunk* AmberCraft::World::GetChunk(uint64_t p_x, uint64_t p_y, uint64_t p_z) const
 {
-	const uint16_t chunkElement = From3Dto1D((p_x / CHUNK_SIZE) + WORLD_SIZE / 2, p_y / CHUNK_SIZE, (p_z / CHUNK_SIZE) + WORLD_SIZE / 2);
+	const uint16_t chunkElement = From3Dto1D((p_x / CHUNK_SIZE) + WORLD_SIZE / 2, (p_y / CHUNK_SIZE) + WORLD_SIZE / 2, (p_z / CHUNK_SIZE) + WORLD_SIZE / 2);
 
 	if (chunkElement >= m_chunks.size())
 		return nullptr;
@@ -253,10 +266,27 @@ AmberCraft::BlockData AmberCraft::World::GetBlock(uint64_t p_x, uint64_t p_y, ui
 	return m_chunks[chunkElement]->blocks[blockElement];
 }
 
-bool AmberCraft::World::SetBlock(uint64_t p_x, uint64_t p_y, uint64_t p_z, BlockData p_blockData, bool p_updateChunk) const
+bool AmberCraft::World::SetBlock(int64_t  p_x, int64_t  p_y, int64_t  p_z, BlockData p_blockData, bool p_updateChunk) const
 {
-	const uint16_t chunkElement = From3Dto1D(p_x / CHUNK_SIZE + WORLD_SIZE / 2, p_y / CHUNK_SIZE + WORLD_SIZE / 2, p_z / CHUNK_SIZE + WORLD_SIZE / 2);
-	const uint16_t blockElement = Chunk::From3Dto1D((p_x + WORLD_SIZE / 2 * CHUNK_SIZE) % CHUNK_SIZE, (p_y + WORLD_SIZE / 2 * CHUNK_SIZE) % CHUNK_SIZE, (p_z + WORLD_SIZE / 2 * CHUNK_SIZE) % CHUNK_SIZE);
+	float p_x1 = static_cast<float>(p_x);
+	float p_y1 = static_cast<float>(p_y);
+	float p_z1 = static_cast<float>(p_z);
+
+	float xChunk = (p_x1 / CHUNK_SIZE) + (WORLD_SIZE / 2);
+	float yChunk = (p_y1 / CHUNK_SIZE) + (WORLD_SIZE / 2);
+	float zChunk = (p_z1 / CHUNK_SIZE) + (WORLD_SIZE / 2);
+
+	if (xChunk < 0 || xChunk >= WORLD_SIZE ||
+		yChunk < 0 || yChunk >= WORLD_SIZE ||
+		zChunk < 0 || zChunk >= WORLD_SIZE)
+	{
+		return false;
+	}
+
+	const uint16_t chunkElement = From3Dto1D(xChunk, yChunk, zChunk);
+	const uint16_t blockElement = Chunk::From3Dto1D(static_cast<uint8_t>(p_x1 + WORLD_SIZE / 2 * CHUNK_SIZE) % CHUNK_SIZE,
+		static_cast<uint8_t>(p_y1 + WORLD_SIZE / 2 * CHUNK_SIZE) % CHUNK_SIZE,
+		static_cast<uint8_t>(p_z1 + WORLD_SIZE / 2 * CHUNK_SIZE) % CHUNK_SIZE);
 
 	if (chunkElement >= m_chunks.size() || blockElement >= CHUNK_ELEMENTS_COUNT)
 		return false;

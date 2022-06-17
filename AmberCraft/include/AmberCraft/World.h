@@ -37,7 +37,7 @@ namespace AmberCraft
 
 		Chunk* GetChunk(uint64_t p_x, uint64_t p_y, uint64_t p_z) const;
 		BlockData GetBlock(uint64_t p_x, uint64_t p_y, uint64_t p_z) const;
-		bool SetBlock(uint64_t p_x, uint64_t p_y, uint64_t p_z, BlockData p_blockData, bool p_updateChunk = false) const;
+		bool SetBlock(int64_t  p_x, int64_t  p_y, int64_t  p_z, BlockData p_blockData, bool p_updateChunk = false) const;
 		
 		static std::array<uint8_t, 3> From1Dto3D(uint16_t p_index);
 		static uint16_t From3Dto1D(uint8_t p_x, uint8_t p_y, uint8_t p_z);

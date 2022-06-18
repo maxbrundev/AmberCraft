@@ -20,7 +20,7 @@ RenderEngine::Systems::Application::Application() : disableShadows(false)
 	m_shader.Unbind();
 
 	//Temporary Outline implementation
-	m_shaderOutline = new AmberEngine::Resources::Shader("res/shaders/outline.vs", "res/shaders/outline.fs");
+	/*m_shaderOutline = m_renderingManager.GetResourcesManager().LoadShaderFiles("outline", "outline.vs", "outline.fs");
 	AmberCraft::BlockGeometry::Setup();
 	const auto& vertices = AmberCraft::BlockGeometry::GetVertices();
 	
@@ -38,13 +38,7 @@ RenderEngine::Systems::Application::Application() : disableShadows(false)
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(AmberCraft::BlockVertex), reinterpret_cast<void*>(offsetof(AmberCraft::BlockVertex, textureCoord)));
 	
 	glBindVertexArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-}
-
-RenderEngine::Systems::Application::~Application()
-{
-	delete m_shaderOutline;
-	m_shaderOutline = nullptr;
+	glBindBuffer(GL_ARRAY_BUFFER, 0);*/
 }
 
 void RenderEngine::Systems::Application::Setup()
@@ -178,9 +172,8 @@ void RenderEngine::Systems::Application::Run()
 
 		m_world.Draw(m_renderingManager);
 
-
 		//Temporary Outline implementation
-		float raycastDistance = 10;
+		/*float raycastDistance = 10;
 		RaycastCollision result;
 		RayCast(playerPosition, playerForward, raycastDistance, result);
 
@@ -189,15 +182,15 @@ void RenderEngine::Systems::Application::Run()
 			const glm::mat4 projectionMatrix = m_renderingManager.CalculateProjectionMatrix();
 			const glm::mat4 viewMatrix = m_renderingManager.CalculateViewMatrix();
 		
-			m_shaderOutline->Bind();
-			m_shaderOutline->SetUniformMat4("model", glm::translate(glm::mat4(1.0f), result.blockPosition));
-			m_shaderOutline->SetUniformMat4("view", viewMatrix);
-			m_shaderOutline->SetUniformMat4("projection", projectionMatrix);
+			m_shaderOutline.Bind();
+			m_shaderOutline.SetUniformMat4("model", glm::translate(glm::mat4(1.0f), result.blockPosition));
+			m_shaderOutline.SetUniformMat4("view", viewMatrix);
+			m_shaderOutline.SetUniformMat4("projection", projectionMatrix);
 		
 			glBindVertexArray(m_vao);
 			glDrawArrays(GL_TRIANGLES, 0, 36);
 			glBindVertexArray(0);
-		}
+		}*/
 
 		m_renderingManager.SwapBuffers();
 	}

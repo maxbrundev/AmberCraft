@@ -1,20 +1,35 @@
 # AmberCraft
-OpenGL C++ Minecraft clone using AmberEngine
+OpenGL C++ Minecraft clone
 
-### TODO:
-- Update AmberEngine dependencies to v1.0.0
-- Add my Math library in order to replace GLM
-- Per cube faces Culling
-- Frustum Culling
-- World Shifting depending of the Player position
+##  Features
+- In Chunck block culling
+- Neighbor block culling
+- Chunck Surface culling
+- Add / Break Block
+- Atlas and per-face Texture Mapping
+
+## Todo
+- Replace AmberEngine early version by OpenSandBox (then use AmberEngine future version)
+- Refacto terrain generation
+- Refacto block geometry
+- Move World
+- Per block face culling (only draw visible faces)
 - Greedy Meshing
+- Block Outline
+- ...
 
-### Dependencies / Subdependencies
-- AmberEngine early version (Context / Driver initializer, Resources Management...) 
-- OpenGL with GLEW (Graphics API)
-- GLFW (Windowing and Inputs)
-- Assimp (3D Model Loader)
-- GLM (Mathematics)
-- imGui (GUI)
+## Software
+- Visual Studio 2022 (previous version supported)
 
-![alt text](Screens/WithShadowCoefficientonTexture.PNG?raw=true "AmberCraft")
+## Dependencies
+- AmberEngine early version
+  - OpenGL with GLEW (Graphics API)
+  - GLFW (Windowing and inputs)
+  - Assimp (3D model loader)
+  - GLM (OpenGL Mathematics)
+  - stb_image (Image Loader)
+  - ImGui (GUI)
+
+## Requirements
+AmberCraft requires:
+- GPU: Graphics card supporting OpenGL 4.3

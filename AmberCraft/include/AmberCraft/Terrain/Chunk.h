@@ -6,7 +6,7 @@
 #define CHUNK_SIZE 16
 #define CHUNK_ELEMENTS_COUNT CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE
 
-namespace AmberCraft
+namespace AmberCraft::Terrain
 {
 	class Chunk
 	{
@@ -42,7 +42,7 @@ namespace AmberCraft
 
 		~Chunk() = default;
 
-		void Fill(BlockType p_blockType = BlockType::DIRT);
+		void Fill(EBlockType p_blockType = EBlockType::DIRT);
 		void SetChunksNeighbors(Chunk* p_left, Chunk* p_right, Chunk* p_top, Chunk* p_bot, Chunk* p_front, Chunk* p_back);
 		void UpdateNeighBors() const;
 

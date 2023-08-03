@@ -1,14 +1,14 @@
-#include "pch.h"
+#include "AmberCraftPCH.h"
 
-#include "AmberCraft/BlockGeometry.h"
+#include "AmberCraft/Terrain/BlockGeometry.h"
 
-std::vector<AmberCraft::BlockVertex> AmberCraft::BlockGeometry::m_vertices;
-glm::vec3 AmberCraft::BlockGeometry::m_positions[8];
-glm::vec3 AmberCraft::BlockGeometry::m_normals[6];
-glm::vec2 AmberCraft::BlockGeometry::m_textureCoordinates[4];
-bool AmberCraft::BlockGeometry::m_initialized = false;
+std::vector<AmberCraft::Terrain::BlockVertex> AmberCraft::Terrain::BlockGeometry::m_vertices;
+glm::vec3 AmberCraft::Terrain::BlockGeometry::m_positions[8];
+glm::vec3 AmberCraft::Terrain::BlockGeometry::m_normals[6];
+glm::vec2 AmberCraft::Terrain::BlockGeometry::m_textureCoordinates[4];
+bool AmberCraft::Terrain::BlockGeometry::m_initialized = false;
 
-void AmberCraft::BlockGeometry::Setup()
+void AmberCraft::Terrain::BlockGeometry::Setup()
 {
 	if (!m_initialized)
 	{
@@ -20,7 +20,7 @@ void AmberCraft::BlockGeometry::Setup()
 	}
 }
 
-void AmberCraft::BlockGeometry::InitCubePositions()
+void AmberCraft::Terrain::BlockGeometry::InitCubePositions()
 {
 	m_positions[0] = glm::vec3(-0.5, +0.5, -0.5);
 	m_positions[1] = glm::vec3(-0.5, +0.5, +0.5);
@@ -32,7 +32,7 @@ void AmberCraft::BlockGeometry::InitCubePositions()
 	m_positions[7] = glm::vec3(+0.5, -0.5, -0.5);
 }
 
-void AmberCraft::BlockGeometry::InitCubeTextureCoordinates()
+void AmberCraft::Terrain::BlockGeometry::InitCubeTextureCoordinates()
 {
 	m_textureCoordinates[0] = glm::vec2(0, 0);
 	m_textureCoordinates[1] = glm::vec2(0, 1);
@@ -40,7 +40,7 @@ void AmberCraft::BlockGeometry::InitCubeTextureCoordinates()
 	m_textureCoordinates[3] = glm::vec2(1, 1);
 }
 
-void AmberCraft::BlockGeometry::InitCubeNormals()
+void AmberCraft::Terrain::BlockGeometry::InitCubeNormals()
 {
 	m_normals[0] = glm::vec3(-1, 0, 0);
 	m_normals[1] = glm::vec3(1, 0, 0);
@@ -50,7 +50,7 @@ void AmberCraft::BlockGeometry::InitCubeNormals()
 	m_normals[5] = glm::vec3(0, 0, 1);
 }
 
-void AmberCraft::BlockGeometry::InitCubeVertices()
+void AmberCraft::Terrain::BlockGeometry::InitCubeVertices()
 {
 	CreateTriangle(3, 1, 2, 3, 0, 2, 3);
 	CreateTriangle(3, 0, 1, 3, 1, 0, 3);
@@ -71,14 +71,14 @@ void AmberCraft::BlockGeometry::InitCubeVertices()
 	CreateTriangle(3, 2, 6, 3, 1, 0, 1);
 }
 
-void AmberCraft::BlockGeometry::CreateTriangle(uint8_t pos1, uint8_t pos2, uint8_t pos3, uint8_t text1, uint8_t text2, uint8_t text3, uint8_t p_normals)
+void AmberCraft::Terrain::BlockGeometry::CreateTriangle(uint8_t pos1, uint8_t pos2, uint8_t pos3, uint8_t text1, uint8_t text2, uint8_t text3, uint8_t p_normals)
 {
 	m_vertices.emplace_back(m_positions[pos1], m_textureCoordinates[text1], m_normals[p_normals]);
 	m_vertices.emplace_back(m_positions[pos2], m_textureCoordinates[text2], m_normals[p_normals]);
 	m_vertices.emplace_back(m_positions[pos3], m_textureCoordinates[text3], m_normals[p_normals]);
 }
 
-std::vector< AmberCraft::BlockVertex>& AmberCraft::BlockGeometry::GetVertices()
+std::vector< AmberCraft::Terrain::BlockVertex>& AmberCraft::Terrain::BlockGeometry::GetVertices()
 {
 	return m_vertices;
 }

@@ -1,9 +1,13 @@
-#include "pch.h"
-#include "AmberCraft/Application.h"
+#include "AmberCraftPCH.h"
+
+#include "AmberCraft/Core/Game.h"
 
 int main()
 {
-	RenderEngine::Systems::Application Renderer;
-	Renderer.Setup();
-	Renderer.Run();
+	AmberCraft::Core::Game game;
+
+	game.Initialize();
+	game.Run();
+
+	return 0;
 }

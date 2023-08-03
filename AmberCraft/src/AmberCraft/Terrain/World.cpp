@@ -1,12 +1,10 @@
-#include "pch.h"
+#include "AmberCraftPCH.h"
 
-#include "AmberCraft/World.h"
+#include "AmberCraft/Terrain/World.h"
 
-#include <iostream>
+#include "AmberCraft/Systems/FastNoise.h"
 
-#include "AmberCraft/FastNoise.h"
-
-AmberCraft::World::World()
+AmberCraft::Terrain::World::World()
 {
 	for (int i = 0; i < WORLD_ELEMENTS_COUNT; i++)
 	{
@@ -18,7 +16,7 @@ AmberCraft::World::World()
 	SetNeighbors();
 }
 
-AmberCraft::World::~World()
+AmberCraft::Terrain::World::~World()
 {
 	for (auto& chunk : m_chunks)
 	{
@@ -29,7 +27,7 @@ AmberCraft::World::~World()
 	m_chunks.clear();
 }
 
-void AmberCraft::World::UpdateChuncksFromPlayerPosition(const glm::vec3& p_playerPosition)
+void AmberCraft::Terrain::World::UpdateChuncksFromPlayerPosition(const glm::vec3& p_playerPosition)
 {
 	//RemoveChunckAwayFromPlayer(p_playerPosition);
 
@@ -86,7 +84,7 @@ void AmberCraft::World::UpdateChuncksFromPlayerPosition(const glm::vec3& p_playe
 	}
 }
 
-void AmberCraft::World::RemoveChunckAwayFromPlayer(const glm::vec3& p_playerPosition)
+void AmberCraft::Terrain::World::RemoveChunckAwayFromPlayer(const glm::vec3& p_playerPosition)
 {
 	const glm::vec2 distancePlayer = glm::vec2(p_playerPosition.x, p_playerPosition.z) - glm::vec2(
 		m_offsetX * CHUNK_SIZE, m_offsetZ * CHUNK_SIZE);
@@ -97,7 +95,7 @@ void AmberCraft::World::RemoveChunckAwayFromPlayer(const glm::vec3& p_playerPosi
 	SetShiftWorldDirection(normalize(distancePlayer));
 }
 
-void AmberCraft::World::SetNeighbors()
+void AmberCraft::Terrain::World::SetNeighbors()
 {
 	for (int i = 0; i < m_chunks.size(); i++)
 	{
@@ -114,17 +112,17 @@ void AmberCraft::World::SetNeighbors()
 	}
 }
 
-bool AmberCraft::World::IsInWorld(uint8_t p_index)
+bool AmberCraft::Terrain::World::IsInWorld(uint8_t p_index)
 {
 	return p_index >= 0 && p_index <= WORLD_SIZE - 1;
 }
 
-void AmberCraft::World::AddChunck(Chunk* p_chunck)
+void AmberCraft::Terrain::World::AddChunck(Chunk* p_chunck)
 {
 	m_chunks.push_back(p_chunck);
 }
 
-void AmberCraft::World::GenerateTerrain() const
+void AmberCraft::Terrain::World::GenerateTerrain() const
 {
 	FastNoise perlinNoise;
 	perlinNoise.SetSeed(747);
@@ -156,11 +154,11 @@ void AmberCraft::World::GenerateTerrain() const
 						BlockData newBlock;
 	
 						if (layer == 0)
-							newBlock.type = BlockType::GRASS;
+							newBlock.type = EBlockType::GRASS;
 						else if (layer <= 2)
-							newBlock.type = BlockType::DIRT;
+							newBlock.type = EBlockType::DIRT;
 						else
-							newBlock.type = BlockType::ROCK;
+							newBlock.type = EBlockType::ROCK;
 	
 						SetBlock(static_cast<uint64_t>(worldX), static_cast<uint64_t>(currentHeight) - WORLD_SIZE / 2 * CHUNK_SIZE, static_cast<uint64_t>(worldZ), newBlock);
 	
@@ -174,7 +172,7 @@ void AmberCraft::World::GenerateTerrain() const
 	UpdateChuncksToRender();
 }
 
-void AmberCraft::World::SetShiftWorldDirection(const glm::vec2& p_direction)
+void AmberCraft::Terrain::World::SetShiftWorldDirection(const glm::vec2& p_direction)
 {
 	if (p_direction.x > 0.33f)
 	{
@@ -195,7 +193,7 @@ void AmberCraft::World::SetShiftWorldDirection(const glm::vec2& p_direction)
 	}
 }
 
-void AmberCraft::World::Shift(EShiftDirection p_direction)
+void AmberCraft::Terrain::World::Shift(EShiftDirection p_direction)
 {
 	switch (p_direction)
 	{
@@ -214,7 +212,7 @@ void AmberCraft::World::Shift(EShiftDirection p_direction)
 	}
 }
 
-void AmberCraft::World::UpdateChuncksToRender() const
+void AmberCraft::Terrain::World::UpdateChuncksToRender() const
 {
 	for (int i = 0; i < m_chunks.size(); ++i)
 	{
@@ -222,7 +220,7 @@ void AmberCraft::World::UpdateChuncksToRender() const
 	}
 }
 
-void AmberCraft::World::Draw(AmberEngine::Managers::RenderingManager& p_renderingManager) const
+void AmberCraft::Terrain::World::Draw(AmberEngine::Managers::RenderingManager& p_renderingManager) const
 {
 	const glm::mat4 projectionMatrix = p_renderingManager.CalculateProjectionMatrix();
 	const glm::mat4 viewMatrix       = p_renderingManager.CalculateViewMatrix();
@@ -245,7 +243,7 @@ void AmberCraft::World::Draw(AmberEngine::Managers::RenderingManager& p_renderin
 	}
 }
 
-AmberCraft::Chunk* AmberCraft::World::GetChunk(uint64_t p_x, uint64_t p_y, uint64_t p_z) const
+AmberCraft::Terrain::Chunk* AmberCraft::Terrain::World::GetChunk(uint64_t p_x, uint64_t p_y, uint64_t p_z) const
 {
 	const uint16_t chunkElement = From3Dto1D((p_x / CHUNK_SIZE) + WORLD_SIZE / 2, (p_y / CHUNK_SIZE) + WORLD_SIZE / 2, (p_z / CHUNK_SIZE) + WORLD_SIZE / 2);
 
@@ -255,18 +253,18 @@ AmberCraft::Chunk* AmberCraft::World::GetChunk(uint64_t p_x, uint64_t p_y, uint6
 	return m_chunks[chunkElement];
 }
 
-AmberCraft::BlockData AmberCraft::World::GetBlock(uint64_t p_x, uint64_t p_y, uint64_t p_z) const
+AmberCraft::Terrain::BlockData AmberCraft::Terrain::World::GetBlock(uint64_t p_x, uint64_t p_y, uint64_t p_z) const
 {
 	const uint16_t chunkElement = From3Dto1D(p_x / CHUNK_SIZE + WORLD_SIZE / 2, p_y / CHUNK_SIZE + WORLD_SIZE / 2, p_z / CHUNK_SIZE + WORLD_SIZE / 2);
 	const uint16_t blockElement = Chunk::From3Dto1D((p_x + WORLD_SIZE / 2 * CHUNK_SIZE) % CHUNK_SIZE, (p_y + WORLD_SIZE / 2 * CHUNK_SIZE) % CHUNK_SIZE, (p_z + WORLD_SIZE / 2 * CHUNK_SIZE) % CHUNK_SIZE);
 
 	if (chunkElement >= m_chunks.size() || blockElement >= CHUNK_ELEMENTS_COUNT)
-		return BlockData{BlockType::AIR};
+		return BlockData{EBlockType::AIR};
 
 	return m_chunks[chunkElement]->blocks[blockElement];
 }
 
-bool AmberCraft::World::SetBlock(int64_t  p_x, int64_t  p_y, int64_t  p_z, BlockData p_blockData, bool p_updateChunk) const
+bool AmberCraft::Terrain::World::SetBlock(int64_t  p_x, int64_t  p_y, int64_t  p_z, BlockData p_blockData, bool p_updateChunk) const
 {
 	float p_x1 = static_cast<float>(p_x);
 	float p_y1 = static_cast<float>(p_y);
@@ -302,7 +300,7 @@ bool AmberCraft::World::SetBlock(int64_t  p_x, int64_t  p_y, int64_t  p_z, Block
 	return true;
 }
 
-std::array<uint8_t, 3> AmberCraft::World::From1Dto3D(uint16_t p_index)
+std::array<uint8_t, 3> AmberCraft::Terrain::World::From1Dto3D(uint16_t p_index)
 {
 	std::array<uint8_t, 3> result;
 
@@ -315,12 +313,12 @@ std::array<uint8_t, 3> AmberCraft::World::From1Dto3D(uint16_t p_index)
 	return result;
 }
 
-uint16_t AmberCraft::World::From3Dto1D(uint8_t p_x, uint8_t p_y, uint8_t p_z)
+uint16_t AmberCraft::Terrain::World::From3Dto1D(uint8_t p_x, uint8_t p_y, uint8_t p_z)
 {
 	return p_x + p_y * WORLD_SIZE + p_z * WORLD_SIZE * WORLD_SIZE;
 }
 
-std::array<uint64_t, 3> AmberCraft::World::PositionToChunkCoordinate(uint64_t p_x, uint64_t p_y, uint64_t p_z)
+std::array<uint64_t, 3> AmberCraft::Terrain::World::PositionToChunkCoordinate(uint64_t p_x, uint64_t p_y, uint64_t p_z)
 {
 	std::array<uint64_t, 3> result;
 

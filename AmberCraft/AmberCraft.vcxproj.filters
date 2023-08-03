@@ -15,57 +15,78 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="pch.h">
+    <ClInclude Include="AmberCraftPCH.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\AmberCraft\Application.h">
+    <ClInclude Include="include\AmberCraft\Terrain\BlockData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\AmberCraft\BlockData.h">
+    <ClInclude Include="include\AmberCraft\Terrain\Chunk.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\AmberCraft\BlockGeometry.h">
+    <ClInclude Include="include\AmberCraft\Terrain\BlockGeometry.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\AmberCraft\BlockType.h">
+    <ClInclude Include="include\AmberCraft\Terrain\ChunkBuffers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\AmberCraft\Chunk.h">
+    <ClInclude Include="include\AmberCraft\Terrain\EBlockType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\AmberCraft\ChunkBuffers.h">
+    <ClInclude Include="include\AmberCraft\Systems\FastNoise.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\AmberCraft\FastNoise.h">
+    <ClInclude Include="include\AmberCraft\Core\Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\AmberCraft\World.h">
+    <ClInclude Include="include\AmberCraft\Gameplay\Player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\AmberCraft\Utils\ServiceLocator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\AmberCraft\Terrain\World.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\AmberCraft\Physics\Physics.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\AmberCraft\Physics\RaycastCollision.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="pch.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="AmberCraft.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\AmberCraft\Application.cpp">
+    <ClCompile Include="AmberCraftPCH.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\AmberCraft\BlockGeometry.cpp">
+    <ClCompile Include="src\AmberCraft\Gameplay\Player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\AmberCraft\Chunk.cpp">
+    <ClCompile Include="src\AmberCraft\Core\Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\AmberCraft\ChunkBuffers.cpp">
+    <ClCompile Include="src\AmberCraft\Terrain\BlockGeometry.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\AmberCraft\FastNoise.cpp">
+    <ClCompile Include="src\AmberCraft\Terrain\Chunk.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\AmberCraft\World.cpp">
+    <ClCompile Include="src\AmberCraft\Terrain\ChunkBuffers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AmberCraft\Systems\FastNoise.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AmberCraft\Physics\Physics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AmberCraft\Utils\ServiceLocator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AmberCraft\Terrain\World.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

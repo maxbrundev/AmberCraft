@@ -26,8 +26,8 @@
 // off every 'zix'.)
 //
 
-#include "pch.h"
-#include "AmberCraft/FastNoise.h"
+#include "AmberCraftPCH.h"
+#include "AmberCraft/Systems/FastNoise.h"
 
 #include <math.h>
 #include <assert.h>

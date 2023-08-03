@@ -1,6 +1,6 @@
 #pragma once
 
-namespace AmberCraft
+namespace AmberCraft::Terrain
 {
 	class ChunkBuffers
 	{

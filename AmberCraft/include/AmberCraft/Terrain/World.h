@@ -7,7 +7,7 @@
 #define WORLD_SIZE 10
 #define WORLD_ELEMENTS_COUNT WORLD_SIZE * WORLD_SIZE * WORLD_SIZE
 
-namespace AmberCraft
+namespace AmberCraft::Terrain
 {
 	enum class EShiftDirection
 	{

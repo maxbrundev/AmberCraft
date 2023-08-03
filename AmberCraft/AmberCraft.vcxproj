@@ -110,7 +110,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>AmberCraftPCH.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -131,7 +131,7 @@ xcopy "$(SolutionDir)..\Dependencies\AmberEngine\bin\$(Platform)\$(Configuration
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>AmberCraftPCH.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -154,7 +154,7 @@ xcopy "$(SolutionDir)..\Dependencies\AmberEngine\bin\$(Platform)\$(Configuration
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>AmberCraftPCH.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -179,7 +179,7 @@ xcopy "$(SolutionDir)..\Dependencies\AmberEngine\bin\$(Platform)\$(Configuration
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>AmberCraftPCH.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -195,30 +195,37 @@ xcopy "$(SolutionDir)..\Dependencies\AmberEngine\bin\$(Platform)\$(Configuration
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="include\AmberCraft\Application.h" />
-    <ClInclude Include="include\AmberCraft\BlockData.h" />
-    <ClInclude Include="include\AmberCraft\BlockGeometry.h" />
-    <ClInclude Include="include\AmberCraft\BlockType.h" />
-    <ClInclude Include="include\AmberCraft\Chunk.h" />
-    <ClInclude Include="include\AmberCraft\ChunkBuffers.h" />
-    <ClInclude Include="include\AmberCraft\FastNoise.h" />
-    <ClInclude Include="include\AmberCraft\World.h" />
-    <ClInclude Include="pch.h" />
+    <ClInclude Include="include\AmberCraft\Core\Game.h" />
+    <ClInclude Include="include\AmberCraft\Terrain\BlockData.h" />
+    <ClInclude Include="include\AmberCraft\Terrain\BlockGeometry.h" />
+    <ClInclude Include="include\AmberCraft\Terrain\EBlockType.h" />
+    <ClInclude Include="include\AmberCraft\Terrain\Chunk.h" />
+    <ClInclude Include="include\AmberCraft\Terrain\ChunkBuffers.h" />
+    <ClInclude Include="include\AmberCraft\Systems\FastNoise.h" />
+    <ClInclude Include="include\AmberCraft\Physics\Physics.h" />
+    <ClInclude Include="include\AmberCraft\Gameplay\Player.h" />
+    <ClInclude Include="include\AmberCraft\Physics\RaycastCollision.h" />
+    <ClInclude Include="include\AmberCraft\Utils\ServiceLocator.h" />
+    <ClInclude Include="include\AmberCraft\Terrain\World.h" />
+    <ClInclude Include="AmberCraftPCH.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AmberCraft.cpp" />
-    <ClCompile Include="pch.cpp">
+    <ClCompile Include="AmberCraftPCH.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\AmberCraft\Application.cpp" />
-    <ClCompile Include="src\AmberCraft\BlockGeometry.cpp" />
-    <ClCompile Include="src\AmberCraft\Chunk.cpp" />
-    <ClCompile Include="src\AmberCraft\ChunkBuffers.cpp" />
-    <ClCompile Include="src\AmberCraft\FastNoise.cpp" />
-    <ClCompile Include="src\AmberCraft\World.cpp" />
+    <ClCompile Include="src\AmberCraft\Core\Game.cpp" />
+    <ClCompile Include="src\AmberCraft\Terrain\BlockGeometry.cpp" />
+    <ClCompile Include="src\AmberCraft\Terrain\Chunk.cpp" />
+    <ClCompile Include="src\AmberCraft\Terrain\ChunkBuffers.cpp" />
+    <ClCompile Include="src\AmberCraft\Systems\FastNoise.cpp" />
+    <ClCompile Include="src\AmberCraft\Physics\Physics.cpp" />
+    <ClCompile Include="src\AmberCraft\Gameplay\Player.cpp" />
+    <ClCompile Include="src\AmberCraft\Utils\ServiceLocator.cpp" />
+    <ClCompile Include="src\AmberCraft\Terrain\World.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\chunk.fs" />

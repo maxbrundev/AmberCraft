@@ -1,34 +1,34 @@
-#include "pch.h"
+#include "AmberCraftPCH.h"
 
-#include "AmberCraft/ChunkBuffers.h"
-#include "AmberCraft/BlockGeometry.h"
+#include "AmberCraft/Terrain/ChunkBuffers.h"
+#include "AmberCraft/Terrain/BlockGeometry.h"
 
-AmberCraft::ChunkBuffers::ChunkBuffers()
+AmberCraft::Terrain::ChunkBuffers::ChunkBuffers()
 {
 	InitBuffers();
 }
 
-void AmberCraft::ChunkBuffers::InitBuffers()
+void AmberCraft::Terrain::ChunkBuffers::InitBuffers()
 {
-	AmberCraft::BlockGeometry::Setup();
+	BlockGeometry::Setup();
 
-	auto& vertices = AmberCraft::BlockGeometry::GetVertices();
+	auto& vertices = BlockGeometry::GetVertices();
 
 	glGenVertexArrays(1, &m_vao);
 	glBindVertexArray(m_vao);
 
 	glGenBuffers(1, &m_vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(AmberCraft::BlockVertex), vertices.data(), GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(BlockVertex), vertices.data(), GL_STATIC_DRAW);
 
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(AmberCraft::BlockVertex), nullptr);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(BlockVertex), nullptr);
 
 	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(AmberCraft::BlockVertex), reinterpret_cast<void*>(offsetof(AmberCraft::BlockVertex, textureCoord)));
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(BlockVertex), reinterpret_cast<void*>(offsetof(BlockVertex, textureCoord)));
 
 	glEnableVertexAttribArray(2);
-	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(AmberCraft::BlockVertex), reinterpret_cast<void*>(offsetof(AmberCraft::BlockVertex, normals)));
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(BlockVertex), reinterpret_cast<void*>(offsetof(BlockVertex, normals)));
 
 	glGenBuffers(1, &m_ssbo);
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, m_ssbo);
@@ -41,7 +41,7 @@ void AmberCraft::ChunkBuffers::InitBuffers()
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 }
 
-void AmberCraft::ChunkBuffers::SendBlocksToGPU(const std::vector<GLuint>& p_blocksToRender) const
+void AmberCraft::Terrain::ChunkBuffers::SendBlocksToGPU(const std::vector<GLuint>& p_blocksToRender) const
 {
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, m_ssbo);
 	glBufferData(GL_SHADER_STORAGE_BUFFER, p_blocksToRender.size() * sizeof(GLuint), p_blocksToRender.data(), GL_DYNAMIC_DRAW);
@@ -51,7 +51,7 @@ void AmberCraft::ChunkBuffers::SendBlocksToGPU(const std::vector<GLuint>& p_bloc
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 }
 
-void AmberCraft::ChunkBuffers::DrawChunk(uint16_t p_blocksToRenderCount) const
+void AmberCraft::Terrain::ChunkBuffers::DrawChunk(uint16_t p_blocksToRenderCount) const
 {
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, m_ssbo);
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, m_ssbo);

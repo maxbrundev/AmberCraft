@@ -33,3 +33,6 @@ OpenGL C++ Minecraft clone
 ## Requirements
 AmberCraft requires:
 - GPU: Graphics card supporting OpenGL 4.3
+
+![AmberCraft](https://github.com/maxbrundev/AmberCraft/assets/32653095/6d68b38f-fdbe-46e7-896e-23f640088ff6)
+

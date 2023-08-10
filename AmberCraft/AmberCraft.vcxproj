@@ -205,9 +205,12 @@ xcopy "$(SolutionDir)..\Dependencies\AmberEngine\bin\$(Platform)\$(Configuration
     <ClInclude Include="include\AmberCraft\Physics\Physics.h" />
     <ClInclude Include="include\AmberCraft\Gameplay\Player.h" />
     <ClInclude Include="include\AmberCraft\Physics\RaycastCollision.h" />
+    <ClInclude Include="include\AmberCraft\UI\DebugUI.h" />
+    <ClInclude Include="include\AmberCraft\UI\IPanel.h" />
     <ClInclude Include="include\AmberCraft\Utils\ServiceLocator.h" />
     <ClInclude Include="include\AmberCraft\Terrain\World.h" />
     <ClInclude Include="AmberCraftPCH.h" />
+    <ClInclude Include="include\AmberCraft\Utils\WorldUtils.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AmberCraft.cpp" />
@@ -224,8 +227,10 @@ xcopy "$(SolutionDir)..\Dependencies\AmberEngine\bin\$(Platform)\$(Configuration
     <ClCompile Include="src\AmberCraft\Systems\FastNoise.cpp" />
     <ClCompile Include="src\AmberCraft\Physics\Physics.cpp" />
     <ClCompile Include="src\AmberCraft\Gameplay\Player.cpp" />
+    <ClCompile Include="src\AmberCraft\UI\DebugUI.cpp" />
     <ClCompile Include="src\AmberCraft\Utils\ServiceLocator.cpp" />
     <ClCompile Include="src\AmberCraft\Terrain\World.cpp" />
+    <ClCompile Include="src\AmberCraft\Utils\WorldUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\shaders\chunk.fs" />

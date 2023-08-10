@@ -2,6 +2,8 @@
 
 #include <AmberEngine/Managers/RenderingManager.h>
 
+#include "AmberCraft/UI/DebugUI.h"
+
 namespace AmberCraft
 {
 	namespace Gameplay
@@ -33,11 +35,12 @@ namespace AmberCraft::Core
 
 		std::shared_ptr<Terrain::World> m_world;
 		std::shared_ptr<Gameplay::Player> m_player;
+
+		std::unique_ptr<UI::DebugUI> m_debugUI;
 		
 		bool disableShadows;
 		GLuint m_vao{};
 		GLuint m_vbo{};
 		GLuint m_ssbo{};
-
 	};
 }

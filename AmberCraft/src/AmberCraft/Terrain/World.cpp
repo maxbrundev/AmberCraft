@@ -27,9 +27,9 @@ AmberCraft::Terrain::World::~World()
 	m_chunks.clear();
 }
 
-void AmberCraft::Terrain::World::UpdateChuncksFromPlayerPosition(const glm::vec3& p_playerPosition)
+void AmberCraft::Terrain::World::UpdatechunksFromPlayerPosition(const glm::vec3& p_playerPosition)
 {
-	//RemoveChunckAwayFromPlayer(p_playerPosition);
+	//RemovechunkAwayFromPlayer(p_playerPosition);
 
 	glm::vec2 distancePlayer = glm::vec2(p_playerPosition.x, p_playerPosition.z) - glm::vec2(m_offsetX * CHUNK_SIZE, m_offsetZ * CHUNK_SIZE);
 
@@ -84,7 +84,7 @@ void AmberCraft::Terrain::World::UpdateChuncksFromPlayerPosition(const glm::vec3
 	}
 }
 
-void AmberCraft::Terrain::World::RemoveChunckAwayFromPlayer(const glm::vec3& p_playerPosition)
+void AmberCraft::Terrain::World::RemovechunkAwayFromPlayer(const glm::vec3& p_playerPosition)
 {
 	const glm::vec2 distancePlayer = glm::vec2(p_playerPosition.x, p_playerPosition.z) - glm::vec2(
 		m_offsetX * CHUNK_SIZE, m_offsetZ * CHUNK_SIZE);
@@ -117,9 +117,9 @@ bool AmberCraft::Terrain::World::IsInWorld(uint8_t p_index)
 	return p_index >= 0 && p_index <= WORLD_SIZE - 1;
 }
 
-void AmberCraft::Terrain::World::AddChunck(Chunk* p_chunck)
+void AmberCraft::Terrain::World::Addchunk(Chunk* p_chunk)
 {
-	m_chunks.push_back(p_chunck);
+	m_chunks.push_back(p_chunk);
 }
 
 void AmberCraft::Terrain::World::GenerateTerrain() const
@@ -169,7 +169,7 @@ void AmberCraft::Terrain::World::GenerateTerrain() const
 		}
 	}
 
-	UpdateChuncksToRender();
+	UpdatechunksToRender();
 }
 
 void AmberCraft::Terrain::World::SetShiftWorldDirection(const glm::vec2& p_direction)
@@ -212,7 +212,7 @@ void AmberCraft::Terrain::World::Shift(EShiftDirection p_direction)
 	}
 }
 
-void AmberCraft::Terrain::World::UpdateChuncksToRender() const
+void AmberCraft::Terrain::World::UpdatechunksToRender() const
 {
 	for (int i = 0; i < m_chunks.size(); ++i)
 	{

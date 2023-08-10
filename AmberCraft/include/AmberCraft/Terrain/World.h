@@ -22,15 +22,15 @@ namespace AmberCraft::Terrain
 	public:
 		World();
 		~World();
-		void UpdateChuncksFromPlayerPosition(const glm::vec3& p_playerPosition);
-		void RemoveChunckAwayFromPlayer(const glm::vec3& p_playerPosition);
+		void UpdatechunksFromPlayerPosition(const glm::vec3& p_playerPosition);
+		void RemovechunkAwayFromPlayer(const glm::vec3& p_playerPosition);
 		void SetNeighbors();
 		bool IsInWorld(uint8_t p_index);
-		void AddChunck(Chunk* p_chunck);
+		void Addchunk(Chunk* p_chunk);
 		void GenerateTerrain() const;
 		void SetShiftWorldDirection(const glm::vec2& p_direction);
 		void Shift(EShiftDirection p_direction);
-		void UpdateChuncksToRender() const;
+		void UpdatechunksToRender() const;
 		void Draw(AmberEngine::Managers::RenderingManager& p_renderingManager) const;
 
 		std::vector<Chunk*>& GetChunks() { return m_chunks; }

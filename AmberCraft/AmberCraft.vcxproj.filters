@@ -54,6 +54,15 @@
     <ClInclude Include="include\AmberCraft\Physics\RaycastCollision.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\AmberCraft\UI\DebugUI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\AmberCraft\Utils\WorldUtils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\AmberCraft\UI\IPanel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AmberCraft.cpp">
@@ -87,6 +96,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\AmberCraft\Terrain\World.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AmberCraft\Utils\WorldUtils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AmberCraft\UI\DebugUI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

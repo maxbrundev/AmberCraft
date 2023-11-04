@@ -196,21 +196,25 @@ xcopy "$(SolutionDir)..\Dependencies\AmberEngine\bin\$(Platform)\$(Configuration
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="include\AmberCraft\Core\Game.h" />
+    <ClInclude Include="include\AmberCraft\Line.h" />
+    <ClInclude Include="include\AmberCraft\Noise\NoiseData.h" />
     <ClInclude Include="include\AmberCraft\Terrain\BlockData.h" />
     <ClInclude Include="include\AmberCraft\Terrain\BlockGeometry.h" />
     <ClInclude Include="include\AmberCraft\Terrain\EBlockType.h" />
     <ClInclude Include="include\AmberCraft\Terrain\Chunk.h" />
     <ClInclude Include="include\AmberCraft\Terrain\ChunkBuffers.h" />
-    <ClInclude Include="include\AmberCraft\Systems\FastNoise.h" />
+    <ClInclude Include="include\AmberCraft\Noise\FastNoise.h" />
     <ClInclude Include="include\AmberCraft\Physics\Physics.h" />
     <ClInclude Include="include\AmberCraft\Gameplay\Player.h" />
     <ClInclude Include="include\AmberCraft\Physics\RaycastCollision.h" />
+    <ClInclude Include="include\AmberCraft\Terrain\BlockOutlineGeometry.h" />
+    <ClInclude Include="include\AmberCraft\Noise\PerlinNoise.h" />
+    <ClInclude Include="include\AmberCraft\Terrain\TerrainLayerData.h" />
     <ClInclude Include="include\AmberCraft\UI\DebugUI.h" />
     <ClInclude Include="include\AmberCraft\UI\IPanel.h" />
     <ClInclude Include="include\AmberCraft\Utils\ServiceLocator.h" />
     <ClInclude Include="include\AmberCraft\Terrain\World.h" />
     <ClInclude Include="AmberCraftPCH.h" />
-    <ClInclude Include="include\AmberCraft\Utils\WorldUtils.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AmberCraft.cpp" />
@@ -221,22 +225,29 @@ xcopy "$(SolutionDir)..\Dependencies\AmberEngine\bin\$(Platform)\$(Configuration
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\AmberCraft\Core\Game.cpp" />
+    <ClCompile Include="src\AmberCraft\Line.cpp" />
     <ClCompile Include="src\AmberCraft\Terrain\BlockGeometry.cpp" />
     <ClCompile Include="src\AmberCraft\Terrain\Chunk.cpp" />
     <ClCompile Include="src\AmberCraft\Terrain\ChunkBuffers.cpp" />
-    <ClCompile Include="src\AmberCraft\Systems\FastNoise.cpp" />
+    <ClCompile Include="src\AmberCraft\Noise\FastNoise.cpp" />
     <ClCompile Include="src\AmberCraft\Physics\Physics.cpp" />
     <ClCompile Include="src\AmberCraft\Gameplay\Player.cpp" />
+    <ClCompile Include="src\AmberCraft\Terrain\BlockOutlineGeometry.cpp" />
+    <ClCompile Include="src\AmberCraft\Noise\PerlinNoise.cpp" />
     <ClCompile Include="src\AmberCraft\UI\DebugUI.cpp" />
     <ClCompile Include="src\AmberCraft\Utils\ServiceLocator.cpp" />
     <ClCompile Include="src\AmberCraft\Terrain\World.cpp" />
-    <ClCompile Include="src\AmberCraft\Utils\WorldUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\shaders\chunk.fs" />
-    <None Include="res\shaders\chunk.vs" />
+    <Image Include="res\textures\blocks.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\shaders\Chunk.fs" />
+    <None Include="res\shaders\Chunk.vs" />
     <None Include="res\shaders\outline.fs" />
+    <None Include="res\shaders\Outline.glsl" />
     <None Include="res\shaders\outline.vs" />
+    <None Include="res\shaders\Unlit.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

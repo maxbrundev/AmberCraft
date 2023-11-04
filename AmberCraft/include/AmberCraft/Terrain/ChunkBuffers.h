@@ -6,7 +6,7 @@ namespace AmberCraft::Terrain
 	{
 	public:
 		ChunkBuffers();
-		~ChunkBuffers() = default;
+		~ChunkBuffers();
 
 		void InitBuffers();
 		void SendBlocksToGPU(const std::vector<GLuint>& p_blocksToRender) const;
@@ -15,6 +15,8 @@ namespace AmberCraft::Terrain
 	private:
 		GLuint m_vao{};
 		GLuint m_vbo{};
+		GLuint m_ebo;
 		GLuint m_ssbo{};
+		int m_indices[36];
 	};
 }

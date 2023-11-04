@@ -1,17 +1,15 @@
 #pragma once
 
-#include "BlockData.h"
-#include "ChunkBuffers.h"
+#include "AmberCraft/Terrain/BlockData.h"
+#include "AmberCraft/Terrain/ChunkBuffers.h"
 
-#define CHUNK_SIZE 16
-#define CHUNK_ELEMENTS_COUNT CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE
+constexpr int CHUNK_SIZE = 16;
+constexpr int CHUNK_ELEMENTS_COUNT = CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE;
 
 namespace AmberCraft::Terrain
 {
 	class Chunk
 	{
-	public:
-	private:
 		enum class ChunkSides
 		{
 			LEFT,
@@ -33,47 +31,42 @@ namespace AmberCraft::Terrain
 		};
 
 	public:
-		Chunk(const glm::ivec3& p_position);
-
-		Chunk(const Chunk& other)            = default;
-		Chunk(Chunk&& other)                 = default;
-		Chunk& operator=(const Chunk& other) = default;
-		Chunk& operator=(Chunk&& other)      = default;
-
+		Chunk(const glm::vec3& p_position);
 		~Chunk() = default;
 
 		void Fill(EBlockType p_blockType = EBlockType::DIRT);
 		void SetChunksNeighbors(Chunk* p_left, Chunk* p_right, Chunk* p_top, Chunk* p_bot, Chunk* p_front, Chunk* p_back);
 		void UpdateNeighBors() const;
-
+		
 		bool IsBlockOccluded(uint8_t p_x, uint8_t p_y, uint8_t p_z);
 		
 		BlockData* GetBlock(uint8_t p_x, uint8_t p_y, uint8_t p_z, ChunkSides p_chunkSide);
 
-		std::vector<uint32_t> FillBlocksToRender();
+		void FillBlocksToRender();
 
 		void UpdateBlocksToRender();
 		void Draw() const;
 
 		bool IsOccluded() const;
 
-		glm::ivec3 GetChunkCoordinatePosition() const;
-		glm::ivec3 GetWorldCoordinatePosition() const;
+		glm::vec3 GetPosition() const;
 
-		void SetPosition(const glm::ivec3& p_position);
-
-		static std::array<uint8_t, 3> From1Dto3D(uint16_t p_index);
-		static uint16_t From3Dto1D(uint8_t p_x, uint8_t p_y, uint8_t p_z);
+		static constexpr uint16_t From3Dto1D(uint8_t p_x, uint8_t p_y, uint8_t p_z);
+		static constexpr std::array<uint8_t, 3> From1Dto3D(uint16_t p_index);
+		
 
 	public:
 		BlockData blocks[CHUNK_ELEMENTS_COUNT];
+
+		static bool __CHUNK_SURFACE_CULLING;
+		static bool __BLOCK_SURFACE_CULLING;
 
 	private:
 		ChunkBuffers m_chunkBuffers;
 		ChunkNeighbors m_chunksNeighbors;
 
-		glm::ivec3 m_chunkCoordinatePosition;
-
+		glm::vec3 m_chunkCoordinatePosition;
+		std::vector<uint32_t> m_blocksToRender;
 		uint16_t m_blocksToRenderCount;
 
 		bool m_isOccluded;

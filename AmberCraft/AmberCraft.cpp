@@ -4,6 +4,9 @@
 
 int main()
 {
+	uint64_t a = 5;
+	float b = a;
+	uint64_t c = b;
 	AmberCraft::Core::Game game;
 
 	game.Initialize();

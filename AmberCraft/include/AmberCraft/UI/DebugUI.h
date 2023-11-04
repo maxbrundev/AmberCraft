@@ -30,5 +30,7 @@ namespace AmberCraft::UI
 		Gameplay::Player& m_player;
 		const std::string m_title;
 		Terrain::EBlockType m_currenBlockType;
+
+		std::string m_currentBlockType;
 	};
 }

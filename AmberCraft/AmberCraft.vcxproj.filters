@@ -33,9 +33,6 @@
     <ClInclude Include="include\AmberCraft\Terrain\EBlockType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\AmberCraft\Systems\FastNoise.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\AmberCraft\Core\Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -57,10 +54,25 @@
     <ClInclude Include="include\AmberCraft\UI\DebugUI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\AmberCraft\Utils\WorldUtils.h">
+    <ClInclude Include="include\AmberCraft\UI\IPanel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\AmberCraft\UI\IPanel.h">
+    <ClInclude Include="include\AmberCraft\Terrain\BlockOutlineGeometry.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\AmberCraft\Line.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\AmberCraft\Noise\NoiseData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\AmberCraft\Noise\FastNoise.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\AmberCraft\Noise\PerlinNoise.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\AmberCraft\Terrain\TerrainLayerData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -86,9 +98,6 @@
     <ClCompile Include="src\AmberCraft\Terrain\ChunkBuffers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\AmberCraft\Systems\FastNoise.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\AmberCraft\Physics\Physics.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -98,17 +107,33 @@
     <ClCompile Include="src\AmberCraft\Terrain\World.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\AmberCraft\Utils\WorldUtils.cpp">
+    <ClCompile Include="src\AmberCraft\UI\DebugUI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\AmberCraft\UI\DebugUI.cpp">
+    <ClCompile Include="src\AmberCraft\Terrain\BlockOutlineGeometry.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AmberCraft\Line.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AmberCraft\Noise\FastNoise.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AmberCraft\Noise\PerlinNoise.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\shaders\chunk.fs" />
-    <None Include="res\shaders\chunk.vs" />
+    <Image Include="res\textures\blocks.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\shaders\Chunk.fs" />
+    <None Include="res\shaders\Chunk.vs" />
     <None Include="res\shaders\outline.fs" />
+    <None Include="res\shaders\Outline.glsl" />
     <None Include="res\shaders\outline.vs" />
+    <None Include="res\shaders\Unlit.glsl" />
   </ItemGroup>
 </Project>

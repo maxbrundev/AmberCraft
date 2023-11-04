@@ -27,7 +27,7 @@
 //
 
 #include "AmberCraftPCH.h"
-#include "AmberCraft/Systems/FastNoise.h"
+#include "AmberCraft/Noise/FastNoise.h"
 
 #include <math.h>
 #include <assert.h>

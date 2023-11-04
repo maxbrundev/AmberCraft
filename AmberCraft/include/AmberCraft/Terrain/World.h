@@ -2,13 +2,29 @@
 
 #include <AmberEngine/Managers/RenderingManager.h>
 
-#include "Chunk.h"
+#include "AmberCraft/Terrain/Chunk.h"
+#include "AmberCraft/Terrain/TerrainLayerData.h"
 
-#define WORLD_SIZE 10
-#define WORLD_ELEMENTS_COUNT WORLD_SIZE * WORLD_SIZE * WORLD_SIZE
+#include "AmberCraft/Noise/NoiseData.h"
+#include "AmberCraft/Noise/PerlinNoise.h"
+#include "AmberCraft/Noise/FastNoise.h"
+
+constexpr int WORLD_SIZE = 10;
+constexpr int WORLD_ELEMENTS_COUNT = WORLD_SIZE * WORLD_SIZE * WORLD_SIZE;
 
 namespace AmberCraft::Terrain
 {
+	struct ShiftWorldDirectionData
+	{
+		std::pair<uint8_t, int8_t> Direction;
+		uint8_t Count;
+
+		explicit ShiftWorldDirectionData(const std::pair<uint8_t, int8_t>& p_shiftDirection, uint8_t p_shiftState = 0) :
+		Direction(std::move(p_shiftDirection)),
+		Count(p_shiftState)
+		{ }
+	};
+
 	enum class EShiftDirection
 	{
 		NORTH,
@@ -22,31 +38,53 @@ namespace AmberCraft::Terrain
 	public:
 		World();
 		~World();
-		void UpdatechunksFromPlayerPosition(const glm::vec3& p_playerPosition);
-		void RemovechunkAwayFromPlayer(const glm::vec3& p_playerPosition);
-		void SetNeighbors();
-		bool IsInWorld(uint8_t p_index);
-		void Addchunk(Chunk* p_chunk);
+
 		void GenerateTerrain() const;
-		void SetShiftWorldDirection(const glm::vec2& p_direction);
-		void Shift(EShiftDirection p_direction);
-		void UpdatechunksToRender() const;
+		void GenerateChunk(uint8_t p_xChunk, uint8_t p_zChunk, bool p_update = false) const;
+		void ApplyTerrainLayers(int64_t p_worldX, int16_t p_height, int64_t p_worldZ, bool p_update = false) const;
+
+		void SetNeighbors() const;
+		void SetNeighbor(uint8_t p_x, uint8_t p_y, uint8_t p_z) const;
+
 		void Draw(AmberEngine::Managers::RenderingManager& p_renderingManager) const;
 
-		std::vector<Chunk*>& GetChunks() { return m_chunks; }
+		void UpdateChunksFromPlayerPosition(const glm::vec3& p_playerPosition, const glm::vec3& p_playerForwad);
 
-		Chunk* GetChunk(uint64_t p_x, uint64_t p_y, uint64_t p_z) const;
-		BlockData GetBlock(uint64_t p_x, uint64_t p_y, uint64_t p_z) const;
-		bool SetBlock(int64_t  p_x, int64_t  p_y, int64_t  p_z, BlockData p_blockData, bool p_updateChunk = false) const;
+		constexpr int64_t LocalToWorldX(int64_t p_localX) const;
+		constexpr int64_t LocalToWorldZ(int64_t p_localZ) const;
+		uint8_t HeightAt(int16_t p_x, int16_t p_y) const;
 		
-		static std::array<uint8_t, 3> From1Dto3D(uint16_t p_index);
-		static uint16_t From3Dto1D(uint8_t p_x, uint8_t p_y, uint8_t p_z);
-		static std::array<uint64_t, 3> PositionToChunkCoordinate(uint64_t p_x, uint64_t p_y, uint64_t p_z);
+		void SetShiftWorldDirection(const glm::vec2& p_direction);
+	
+		void ShiftWorld(uint8_t p_axis, int8_t p_shiftDirection);
 
+		void UpdateChunksToRender() const;
+		
+		Chunk* CreateChunk(const glm::vec3& p_position) const;
+		void DestroyChunk(uint16_t p_index);
+
+		BlockData GetBlock(int16_t p_x, int16_t p_y, int16_t p_z) const;
+		void SetBlock(int16_t p_x, int16_t p_y, int16_t p_z, BlockData p_blockData, bool p_updateChunk) const;
+
+		static constexpr uint16_t From3Dto1D(uint8_t p_x, uint8_t p_y, uint8_t p_z);
+		static constexpr std::array<uint8_t, 3> From1Dto3D(uint16_t p_index);
+
+		static std::array<int64_t, 3> GetChunkCoordinates(const glm::vec3& p_worldPosition);
+
+	public:
+		static bool __WORLD_IFINITE_GENERATION;
+		int64_t m_xChunkOffset;
+		int64_t m_zChunkOffset;
 	private:
 		std::vector<Chunk*> m_chunks;
+		std::unique_ptr<PerlinNoise> m_perlin;
+		FastNoise m_fastNoise;
+		Noise::NoiseData m_noiseData;
+		bool isChunkPosChanged = false;
+		
 
-		int m_offsetX = 0;
-		int m_offsetZ = 0;
+		std::vector<TerrainLayer> m_terrainLayers;
+		
+		std::queue<ShiftWorldDirectionData> m_shiftWorldQueue;
 	};
 }

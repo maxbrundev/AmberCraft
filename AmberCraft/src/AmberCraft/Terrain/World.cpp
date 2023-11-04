@@ -2,6 +2,8 @@
 
 #include "AmberCraft/Terrain/World.h"
 
+#include "AmberCraft/Terrain/Chunk.h"
+
 #include "AmberCraft/Noise/PerlinNoise.h"
 
 bool AmberCraft::Terrain::World::__WORLD_IFINITE_GENERATION = false;
@@ -12,7 +14,7 @@ AmberCraft::Terrain::World::World()
 	m_xChunkOffset = 0;
 	m_zChunkOffset = 0;
 
-	m_perlin = std::make_unique<PerlinNoise>(m_noiseData.Seed);
+	m_perlin = std::make_unique<Noise::PerlinNoise>(m_noiseData.Seed);
 
 	m_terrainLayers.clear();
 	m_terrainLayers.emplace_back("Grass", EBlockType::GRASS, 1);

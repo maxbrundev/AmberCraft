@@ -2,6 +2,7 @@
 
 #include "AmberCraft/UI/DebugUI.h"
 
+#include "AmberCraft/Terrain/Chunk.h"
 #include "AmberCraft/Terrain/World.h"
 #include "AmberCraft/Gameplay/Player.h"
 

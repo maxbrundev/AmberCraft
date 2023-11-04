@@ -1,29 +1,29 @@
 #include "AmberCraftPCH.h"
 
-#include "AmberCraft/Terrain/BlockOutlineGeometry.h"
+#include "AmberCraft/Geometry/BlockOutlineGeometry.h"
 
-BlockOutlineGeometry::BlockOutlineGeometry()
+AmberCraft::Geometry::BlockOutlineGeometry::BlockOutlineGeometry()
 {
 	InitializePositions();
 	InitializeIndices();
 	InitializeBuffers();
 }
 
-BlockOutlineGeometry::~BlockOutlineGeometry()
+AmberCraft::Geometry::BlockOutlineGeometry::~BlockOutlineGeometry()
 {
 	glDeleteVertexArrays(1, &m_vao);
 	glDeleteBuffers(1, &m_vbo);
 	glDeleteBuffers(1, &m_ebo);
 }
 
-void BlockOutlineGeometry::Draw() const
+void AmberCraft::Geometry::BlockOutlineGeometry::Draw() const
 {
 	glBindVertexArray(m_vao);
 	glDrawElements(GL_LINES, static_cast<GLsizei>(std::size(m_indices)), GL_UNSIGNED_INT, nullptr);
 	glBindVertexArray(0);
 }
 
-void BlockOutlineGeometry::InitializePositions()
+void AmberCraft::Geometry::BlockOutlineGeometry::InitializePositions()
 {
 	//    v6----- v5
 	//   /|      /|
@@ -45,7 +45,7 @@ void BlockOutlineGeometry::InitializePositions()
 	m_positions[7] = { -0.5f, -0.5f, -0.5f };
 }
 
-void BlockOutlineGeometry::InitializeIndices()
+void AmberCraft::Geometry::BlockOutlineGeometry::InitializeIndices()
 {
 	// Front face
 	m_indices[0] = 0;
@@ -90,7 +90,7 @@ void BlockOutlineGeometry::InitializeIndices()
 	m_indices[23] = 6;
 }
 
-void BlockOutlineGeometry::InitializeBuffers()
+void AmberCraft::Geometry::BlockOutlineGeometry::InitializeBuffers()
 {
 	glGenVertexArrays(1, &m_vao);
 	glBindVertexArray(m_vao);

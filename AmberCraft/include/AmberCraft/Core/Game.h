@@ -2,8 +2,9 @@
 
 #include <AmberEngine/Managers/RenderingManager.h>
 
-#include "AmberCraft/Line.h"
-#include "AmberCraft/Terrain/BlockOutlineGeometry.h"
+#include "AmberCraft/Geometry/Line.h"
+#include "AmberCraft/Geometry/BlockOutlineGeometry.h"
+
 #include "AmberCraft/UI/DebugUI.h"
 
 namespace AmberCraft
@@ -36,7 +37,7 @@ namespace AmberCraft::Core
 	private:
 		AmberEngine::Managers::RenderingManager m_renderingManager;
 		AmberEngine::Resources::Shader* m_currentShader;
-		BlockOutlineGeometry outlineGeometry;
+		Geometry::BlockOutlineGeometry outlineGeometry;
 
 		std::shared_ptr<Terrain::World> m_world;
 		std::shared_ptr<Gameplay::Player> m_player;
@@ -48,8 +49,8 @@ namespace AmberCraft::Core
 		GLuint m_vbo{};
 		GLuint m_ssbo{};
 
-		Line m_lineX;
-		Line m_lineY;
-		Line m_lineZ;
+		Geometry::Line m_lineX;
+		Geometry::Line m_lineY;
+		Geometry::Line m_lineZ;
 	};
 }

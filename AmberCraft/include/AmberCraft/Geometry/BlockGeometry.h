@@ -1,6 +1,6 @@
 #pragma once
 
-namespace AmberCraft::Terrain
+namespace AmberCraft::Geometry
 {
 	struct BlockVertex
 	{

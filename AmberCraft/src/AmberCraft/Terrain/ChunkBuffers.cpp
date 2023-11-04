@@ -1,7 +1,7 @@
 #include "AmberCraftPCH.h"
 
 #include "AmberCraft/Terrain/ChunkBuffers.h"
-#include "AmberCraft/Terrain/BlockGeometry.h"
+#include "AmberCraft/Geometry/BlockGeometry.h"
 
 AmberCraft::Terrain::ChunkBuffers::ChunkBuffers()
 {
@@ -18,7 +18,7 @@ AmberCraft::Terrain::ChunkBuffers::~ChunkBuffers()
 
 void AmberCraft::Terrain::ChunkBuffers::InitBuffers()
 {
-	BlockGeometry::SetUp();
+	Geometry::BlockGeometry::SetUp();
 
 	m_indices[0] = 0;
 	m_indices[1] = 1;
@@ -62,27 +62,27 @@ void AmberCraft::Terrain::ChunkBuffers::InitBuffers()
 	m_indices[34] = 23;
 	m_indices[35] = 20;
 
-	const auto& vertices = BlockGeometry::GetVertices();
+	const auto& vertices = Geometry::BlockGeometry::GetVertices();
 
 	glGenVertexArrays(1, &m_vao);
 	glBindVertexArray(m_vao);
 
 	glGenBuffers(1, &m_vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(BlockVertex), vertices.data(), GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Geometry::BlockVertex), vertices.data(), GL_STATIC_DRAW);
 
 	glGenBuffers(1, &m_ebo);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ebo);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, std::size(m_indices) * sizeof(int), m_indices, GL_STATIC_DRAW);
 
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(BlockVertex), nullptr);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Geometry::BlockVertex), nullptr);
 
 	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(BlockVertex), reinterpret_cast<void*>(offsetof(BlockVertex, uv)));
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Geometry::BlockVertex), reinterpret_cast<void*>(offsetof(Geometry::BlockVertex, uv)));
 
 	glEnableVertexAttribArray(2);
-	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(BlockVertex), reinterpret_cast<void*>(offsetof(BlockVertex, normal)));
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Geometry::BlockVertex), reinterpret_cast<void*>(offsetof(Geometry::BlockVertex, normal)));
 
 	glGenBuffers(1, &m_ssbo);
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, m_ssbo);

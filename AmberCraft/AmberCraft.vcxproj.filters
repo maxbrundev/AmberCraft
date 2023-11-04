@@ -24,9 +24,6 @@
     <ClInclude Include="include\AmberCraft\Terrain\Chunk.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\AmberCraft\Terrain\BlockGeometry.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\AmberCraft\Terrain\ChunkBuffers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -57,12 +54,6 @@
     <ClInclude Include="include\AmberCraft\UI\IPanel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\AmberCraft\Terrain\BlockOutlineGeometry.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\AmberCraft\Line.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\AmberCraft\Noise\NoiseData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -73,6 +64,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\AmberCraft\Terrain\TerrainLayerData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\AmberCraft\Geometry\BlockGeometry.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\AmberCraft\Geometry\BlockOutlineGeometry.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\AmberCraft\Geometry\Line.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -87,9 +87,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\AmberCraft\Core\Game.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\AmberCraft\Terrain\BlockGeometry.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\AmberCraft\Terrain\Chunk.cpp">
@@ -110,16 +107,19 @@
     <ClCompile Include="src\AmberCraft\UI\DebugUI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\AmberCraft\Terrain\BlockOutlineGeometry.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\AmberCraft\Line.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\AmberCraft\Noise\FastNoise.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\AmberCraft\Noise\PerlinNoise.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AmberCraft\Geometry\BlockGeometry.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AmberCraft\Geometry\BlockOutlineGeometry.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AmberCraft\Geometry\Line.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

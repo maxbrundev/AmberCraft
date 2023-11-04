@@ -3,8 +3,8 @@
 #include <AmberEngine/Managers/RenderingManager.h>
 
 #include "AmberCraft/Core/Game.h"
+
 #include "AmberCraft/Terrain/EBlockType.h"
-#include "AmberCraft/Terrain/BlockOutlineGeometry.h"
 
 namespace AmberCraft::Gameplay
 {

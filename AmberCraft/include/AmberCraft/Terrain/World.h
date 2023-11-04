@@ -2,12 +2,21 @@
 
 #include <AmberEngine/Managers/RenderingManager.h>
 
-#include "AmberCraft/Terrain/Chunk.h"
 #include "AmberCraft/Terrain/TerrainLayerData.h"
 
 #include "AmberCraft/Noise/NoiseData.h"
-#include "AmberCraft/Noise/PerlinNoise.h"
+
 #include "AmberCraft/Noise/FastNoise.h"
+
+namespace AmberCraft::Terrain
+{
+	class Chunk;
+}
+
+namespace AmberCraft::Noise
+{
+	class PerlinNoise;
+}
 
 constexpr int WORLD_SIZE = 10;
 constexpr int WORLD_ELEMENTS_COUNT = WORLD_SIZE * WORLD_SIZE * WORLD_SIZE;
@@ -77,7 +86,7 @@ namespace AmberCraft::Terrain
 		int64_t m_zChunkOffset;
 	private:
 		std::vector<Chunk*> m_chunks;
-		std::unique_ptr<PerlinNoise> m_perlin;
+		std::unique_ptr<Noise::PerlinNoise> m_perlin;
 		FastNoise m_fastNoise;
 		Noise::NoiseData m_noiseData;
 		bool isChunkPosChanged = false;

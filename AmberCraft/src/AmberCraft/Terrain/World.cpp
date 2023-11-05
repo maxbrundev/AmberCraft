@@ -34,7 +34,7 @@ AmberCraft::Terrain::World::World()
 
 		m_chunks.push_back(new Chunk(glm::vec3(
 			(x - WORLD_SIZE / 2) * CHUNK_SIZE,
-			y * CHUNK_SIZE,
+			(y - WORLD_SIZE / 2) * CHUNK_SIZE,
 			(z - WORLD_SIZE / 2) * CHUNK_SIZE)));
 	}
 
@@ -94,7 +94,7 @@ void AmberCraft::Terrain::World::ApplyTerrainLayers(int64_t p_worldX, int16_t p_
 
 		while (counter != terrainLayer.Height && currentHeight >= 0)
 		{
-			SetBlock(p_worldX, currentHeight, p_worldZ, terrainLayer.BlockData, p_update);
+			SetBlock(p_worldX, currentHeight - WORLD_SIZE / 2 * CHUNK_SIZE, p_worldZ, terrainLayer.BlockData, p_update);
 
 			counter++;
 			currentHeight--;
@@ -235,7 +235,7 @@ void AmberCraft::Terrain::World::ShiftWorld(uint8_t p_axis, int8_t p_shiftDirect
 				{
 					buffer.emplace_back(new Chunk({
 						(coords[0] + m_xChunkOffset - WORLD_SIZE / 2) * CHUNK_SIZE,
-						(coords[1] * CHUNK_SIZE) ,
+						(coords[1] - WORLD_SIZE / 2) * CHUNK_SIZE ,
 						(coords[2] + m_zChunkOffset - WORLD_SIZE / 2) * CHUNK_SIZE }));
 
 					buffer.back()->UpdateBlocksToRender();
@@ -360,7 +360,7 @@ void AmberCraft::Terrain::World::DestroyChunk(uint16_t p_index)
 AmberCraft::Terrain::BlockData AmberCraft::Terrain::World::GetBlock(int16_t p_x, int16_t p_y, int16_t p_z) const
 {
 	const float xChunk = static_cast<float>(p_x) / CHUNK_SIZE + WORLD_SIZE / 2 - m_xChunkOffset;
-	const float yChunk = static_cast<float>(p_y) / CHUNK_SIZE;
+	const float yChunk = static_cast<float>(p_y) / CHUNK_SIZE + WORLD_SIZE / 2;
 	const float zChunk = static_cast<float>(p_z) / CHUNK_SIZE + WORLD_SIZE / 2 - m_zChunkOffset;
 
 	if (xChunk < 0 || xChunk >= WORLD_SIZE ||
@@ -373,7 +373,7 @@ AmberCraft::Terrain::BlockData AmberCraft::Terrain::World::GetBlock(int16_t p_x,
 	const uint16_t chunkElement = From3Dto1D(xChunk, yChunk, zChunk);
 	const uint16_t blockElement = Chunk::From3Dto1D(
 		static_cast<uint8_t>(p_x + WORLD_SIZE / 2 * CHUNK_SIZE) % CHUNK_SIZE,
-		static_cast<uint8_t>(p_y) % CHUNK_SIZE,
+		static_cast<uint8_t>(p_y + WORLD_SIZE / 2 * CHUNK_SIZE) % CHUNK_SIZE,
 		static_cast<uint8_t>(p_z + WORLD_SIZE / 2 * CHUNK_SIZE) % CHUNK_SIZE);
 
 	return m_chunks[chunkElement]->blocks[blockElement];
@@ -382,7 +382,7 @@ AmberCraft::Terrain::BlockData AmberCraft::Terrain::World::GetBlock(int16_t p_x,
 void AmberCraft::Terrain::World::SetBlock(int16_t p_x, int16_t p_y, int16_t p_z, BlockData p_blockData, bool p_updateChunk) const
 {
 	const float xChunk = static_cast<float>(p_x) / CHUNK_SIZE + WORLD_SIZE / 2 - m_xChunkOffset;
-	const float yChunk = static_cast<float>(p_y) / CHUNK_SIZE;
+	const float yChunk = static_cast<float>(p_y) / CHUNK_SIZE + WORLD_SIZE / 2;
 	const float zChunk = static_cast<float>(p_z) / CHUNK_SIZE + WORLD_SIZE / 2 - m_zChunkOffset;
 
 	if (xChunk < 0 || xChunk >= WORLD_SIZE ||
@@ -395,7 +395,7 @@ void AmberCraft::Terrain::World::SetBlock(int16_t p_x, int16_t p_y, int16_t p_z,
 	const uint16_t chunkElement = From3Dto1D(xChunk, yChunk, zChunk);
 	const uint16_t blockElement = Chunk::From3Dto1D(
 		static_cast<uint8_t>(p_x + WORLD_SIZE / 2 * CHUNK_SIZE) % CHUNK_SIZE,
-		static_cast<uint8_t>(p_y) % CHUNK_SIZE,
+		static_cast<uint8_t>(p_y + WORLD_SIZE / 2 * CHUNK_SIZE) % CHUNK_SIZE,
 		static_cast<uint8_t>(p_z + WORLD_SIZE / 2 * CHUNK_SIZE) % CHUNK_SIZE);
 
 	m_chunks[chunkElement]->blocks[blockElement] = p_blockData;
@@ -425,7 +425,7 @@ constexpr std::array<uint8_t, 3> AmberCraft::Terrain::World::From1Dto3D(uint16_t
 std::array<int64_t, 3> AmberCraft::Terrain::World::GetChunkCoordinates(const glm::vec3& p_worldPosition)
 {
 	const int64_t xChunk = static_cast<uint64_t>(p_worldPosition.x) / CHUNK_SIZE + WORLD_SIZE / 2;
-	const int64_t yChunk = static_cast<uint64_t>(p_worldPosition.y) / CHUNK_SIZE;
+	const int64_t yChunk = static_cast<uint64_t>(p_worldPosition.y) / CHUNK_SIZE + WORLD_SIZE / 2;
 	const int64_t zChunk = static_cast<uint64_t>(p_worldPosition.z) / CHUNK_SIZE + WORLD_SIZE / 2;
 
 	return { static_cast<int64_t>(xChunk), static_cast<int64_t>(yChunk), static_cast<int64_t>(zChunk) };
